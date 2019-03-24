@@ -1,0 +1,36 @@
+{
+  "name": "ktm",
+  "version": "0.1.0",
+  "description": "Malaysia KTM Komuter Train timetable and schedule",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeeU1911/ktm-timetable.git"
+  },
+  "keywords": [
+    "Malaysia",
+    "ktm-timetable",
+    "ktmtimetable",
+    "komuter",
+    "komuter-schedule"
+  ],
+  "author": "Vu,Long",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeeU1911/ktm-timetable/issues"
+  },
+  "homepage": "https://github.com/LeeU1911/ktm-timetable#readme",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.16.4",
+    "grunt": "^1.0.4",
+    "grunt-cli": "^1.3.2",
+    "grunt-contrib-uglify": "^4.0.1",
+    "jade": "^1.11.0",
+    "milligram": "^1.3.0"
+  }
+}
