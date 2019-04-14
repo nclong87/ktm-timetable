@@ -16,6 +16,8 @@ html
         .column
           button.button.button-clear(id='locate' name='locate' onclick='locate()') Locate
           button.button(id='search' name='search' onclick='search()') Search
-  script(src="../js/timetable.min.js")
-  script(src="../data/timetable.json")
-  script(src="../data/stations.json")
+      .row
+        .column
+          div(id='time')
+  script(src="../js/timetable.js")
+  script(src="../js/moment.min.js")
