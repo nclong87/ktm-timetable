@@ -1,0 +1,78 @@
+
+/*
+-------------------------------------------------------------------------
+    Ngager Resets
+-------------------------------------------------------------------------
+*/
+
+* {
+    margin: 0px;
+    padding: 0px;
+    outline: none;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+    width: 10px;
+
+    &:hover {
+      background-color: #c9d6f3;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    background: #d2def5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #abc4f6;
+
+    &:hover {
+      background-color: @ngager_color_brand;
+    }
+  }
+}
+
+q:before,
+q:after {
+  content: '';
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: @ngager_color_black;
+}
+
+/* remove borders around imagese insied lins in IE10*/
+a img {
+  border: none;
+}
+
+button {
+    border: none;
+    font-family: @ngager_font_family;
+    padding: 10px;
+}
+
+html {
+    height: 100% !important;
+}
+
+
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid #fff;
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+}

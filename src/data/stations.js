@@ -406,3 +406,11 @@ export const stations = [
     line: 2,
   },
 ];
+
+export function getLineName(lineNum) {
+  return lineNum === 1 ? 'Tg. Malim - Pel. Klang' : 'Batu Caves - Tampin';
+}
+
+export function getTerminals(lineNum) {
+  return lineNum === 1 ? ['Tanjung Malim', 'Pelabuhan Klang'] : ['Batu Caves', 'Tampin'];
+}
