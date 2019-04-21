@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 export function get3UpcomingTimes(timetable, station) {
   const times = timetable.find(e => e.id === station.id);
-  console.log(times);
+  // console.log(times);
   const now = moment.now();
   const array = [];
   for (const property in times) {
@@ -66,4 +66,17 @@ export function getNearbyStations(lat, long, stations) {
     return Object.assign({}, e, { distance });
   });
   return array.sort((a, b) => a.distance - b.distance).slice(0, 10);
+}
+
+export function getNextStations(currentStation, stations, direction, num = 2) {
+  let index = stations.findIndex(e => e.id === currentStation.id);
+  const result = [];
+  while (result.length < num) {
+    index += direction;
+    if (index < 0 || index >= direction.length) {
+      break;
+    }
+    result.push(stations[index]);
+  }
+  return result;
 }

@@ -10,7 +10,7 @@ import { stations, getTerminals } from '../data/stations';
 import ScheduleResult from '../components/ScheduleResult';
 import Suggestions from '../components/Suggestions';
 import './home.less';
-import { get3UpcomingTimes, searchByKeywords, getNearbyStations } from '../utils/index';
+import { get3UpcomingTimes, searchByKeywords, getNearbyStations, getNextStations } from '../utils/index';
 import { fetchTimeTables, setSelectedStation } from '../appActions';
 
 
@@ -115,19 +115,19 @@ class Home extends PureComponent {
     if (!this.state.selectedStation) {
       return null;
     }
-    const terminals = getTerminals(this.state.selectedStation.line);
+    const [startStation, endStation] = getTerminals(this.state.selectedStation.line);
     return (
       <div>
         <ScheduleResult
-          startStation={terminals[0]}
-          endStation={terminals[1]}
+          endStation={endStation}
           selectedStation={this.state.selectedStation.name}
+          nextStations={getNextStations(this.state.selectedStation, stations, 1)}
           result={this.state.result1}
         />
         <ScheduleResult
-          startStation={terminals[1]}
-          endStation={terminals[0]}
+          endStation={startStation}
           selectedStation={this.state.selectedStation.name}
+          nextStations={getNextStations(this.state.selectedStation, stations, -1)}
           result={this.state.result2}
         />
       </div>
@@ -155,6 +155,7 @@ class Home extends PureComponent {
   render() {
     return (
       <div className="home">
+        <h1>KTM Komuter Train Timetable</h1>
         <div className="search-textfield">
           <TextField
             id="outlined-full-width"

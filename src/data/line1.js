@@ -3482,7 +3482,7 @@ export const timetable2 = [
     value_56: ""
   },
   {
-    id: 15,
+    id: 14,
     direction: "From Pel. Klang to KL Sentral",
     key: "BANK NEGARA",
     value_1: "",

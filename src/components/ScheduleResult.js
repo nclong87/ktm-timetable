@@ -12,15 +12,14 @@ class ScheduleResult extends PureComponent {
     return (
       <div className="schedule-result">
         <Stepper className="steps" alternativeLabel nonLinear>
-          <Step key={1} completed>
-            <StepLabel icon={<i className="material-icons" style={{ color: 'green' }}>tram</i>}>{this.props.startStation}</StepLabel>
+          <Step key={0} completed>
+            <StepLabel icon={<i className="material-icons" style={{ color: 'green' }}>tram</i>}>{this.props.selectedStation}</StepLabel>
           </Step>
-          <Step key={2}>
-            <StepLabel icon={<i className="material-icons">tram</i>}>
-              <p className="station-name">{this.props.selectedStation}</p>
-            </StepLabel>
-          </Step>
-          <Step key={3}><StepLabel icon={<i className="material-icons">tram</i>}>{this.props.endStation}</StepLabel></Step>
+          {this.props.nextStations.map(e => (
+            <Step key={e.id}><StepLabel icon={<i className="material-icons">tram</i>}>{e.name}</StepLabel></Step>
+          ))}
+          <Step key={999}>
+            <StepLabel icon={<i className="material-icons">tram</i>}>{this.props.endStation}</StepLabel></Step>
         </Stepper>
         <div className="times">
           {this.props.result.map((e, index) => (
@@ -38,7 +37,8 @@ class ScheduleResult extends PureComponent {
 }
 
 ScheduleResult.propTypes = {
-  startStation: PropTypes.string.isRequired,
+  // startStation: PropTypes.string.isRequired,
+  nextStations: PropTypes.instanceOf(Array).isRequired,
   endStation: PropTypes.string.isRequired,
   selectedStation: PropTypes.string.isRequired,
   result: PropTypes.instanceOf(Array),

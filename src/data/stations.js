@@ -84,13 +84,6 @@ export const stations = [
     line: 1,
   },
   {
-    id: 13,
-    name: 'Putra',
-    lat: 3.165296,
-    long: 101.691008,
-    line: 2,
-  },
-  {
     id: 14,
     name: 'Bank Negara',
     lat: 3.154722,
@@ -98,25 +91,11 @@ export const stations = [
     line: 1,
   },
   {
-    id: 15,
-    name: 'Bank Negara',
-    lat: 3.154722,
-    long: 101.693136,
-    line: 2,
-  },
-  {
     id: 16,
     name: 'KL Sentral',
     lat: 3.134108,
     long: 101.686634,
     line: 1,
-  },
-  {
-    id: 17,
-    name: 'KL Sentral',
-    lat: 3.134108,
-    long: 101.686634,
-    line: 2,
   },
   {
     id: 18,
@@ -284,6 +263,27 @@ export const stations = [
     name: 'Sentul',
     lat: 3.182177,
     long: 101.688693,
+    line: 2,
+  },
+  {
+    id: 13,
+    name: 'Putra',
+    lat: 3.165296,
+    long: 101.691008,
+    line: 2,
+  },
+  {
+    id: 15,
+    name: 'Bank Negara',
+    lat: 3.154722,
+    long: 101.693136,
+    line: 2,
+  },
+  {
+    id: 17,
+    name: 'KL Sentral',
+    lat: 3.134108,
+    long: 101.686634,
     line: 2,
   },
   {

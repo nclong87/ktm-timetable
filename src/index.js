@@ -27,9 +27,6 @@ class AppProvider extends Component {
   }
 
   render() {
-    if (this.state.isInitializing === true) {
-      return <div className="loading-screen"><div /><span>Initializing...</span></div>;
-    }
     return (
       <Provider store={store}>
         <AppRouter />
