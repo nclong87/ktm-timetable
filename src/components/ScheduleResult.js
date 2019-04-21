@@ -10,25 +10,29 @@ class ScheduleResult extends PureComponent {
       return null;
     }
     return (
-      <Stepper className="schedule-result" alternativeLabel nonLinear>
-        <Step key={1} completed>
-          <StepLabel icon={<i className="material-icons" style={{ color: 'green' }}>tram</i>}>{this.props.startStation}</StepLabel>
-        </Step>
-        <Step key={2}>
-          <StepLabel icon={<i className="material-icons">tram</i>}>
-            <p className="station-name">{this.props.selectedStation}</p>
-            {this.props.result.map((e, index) => (
-              <div key={index}>
-                <p className={`time item-${index}`}>
-                  <i className="material-icons">timer</i>
-                  {e.fromNow} ({e.time})
-                </p>
-              </div>
-            ))}
-          </StepLabel>
-        </Step>
-        <Step key={3}><StepLabel icon={<i className="material-icons">tram</i>}>{this.props.endStation}</StepLabel></Step>
-      </Stepper>
+      <div className="schedule-result">
+        <Stepper className="steps" alternativeLabel nonLinear>
+          <Step key={1} completed>
+            <StepLabel icon={<i className="material-icons" style={{ color: 'green' }}>tram</i>}>{this.props.startStation}</StepLabel>
+          </Step>
+          <Step key={2}>
+            <StepLabel icon={<i className="material-icons">tram</i>}>
+              <p className="station-name">{this.props.selectedStation}</p>
+            </StepLabel>
+          </Step>
+          <Step key={3}><StepLabel icon={<i className="material-icons">tram</i>}>{this.props.endStation}</StepLabel></Step>
+        </Stepper>
+        <div className="times">
+          {this.props.result.map((e, index) => (
+            <div key={index}>
+              <p className={`time item-${index}`}>
+                <i className="material-icons">timer</i>
+                {e.fromNow} ({e.time})
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
     );
   }
 }

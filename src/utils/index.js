@@ -6,26 +6,43 @@ const _ = require('lodash');
 export function get3UpcomingTimes(timetable, station) {
   const times = timetable.find(e => e.id === station.id);
   console.log(times);
-  const upcomingTimes = [];
   const now = moment.now();
+  const array = [];
   for (const property in times) {
     if (_.startsWith(property, 'value') && times.hasOwnProperty(property)) {
         if (times[property]) {
-            let moment1 = moment(times[property], "HH:mm");
-            if (moment1.isBefore(now)) {
-              moment1.add(1, 'd');
+            let m = moment(times[property], "HH:mm");
+            if (m.isValid()) {
+              if (m.isBefore(now)) {
+                m.add(1, 'd');
+              }
+              array.push({
+                time: times[property],
+                diff:  m.diff(now),
+                m,
+              });
             }
-            var fromNow = moment1.fromNow();
-            if (moment1.isValid() && fromNow.indexOf("ago") < 0) {
-                upcomingTimes.push({
-                  time: times[property],
-                  fromNow,
-                });
-            }
+            // if (moment1.isBefore(now)) {
+            //   moment1.add(1, 'd');
+            // }
+            // var fromNow = moment1.fromNow();
+            // if (moment1.isValid() && fromNow.indexOf("ago") < 0) {
+            //     upcomingTimes.push({
+            //       time: times[property],
+            //       fromNow,
+            //     });
+            // }
         }
     }
   }
-  return upcomingTimes.slice(0, 3);
+  // console.log(array);
+  const upcomingTimes = array.sort((a, b) => a.diff - b.diff).slice(0, 3).map(({ time, m}) => {
+    return {
+      time,
+      fromNow: m.fromNow(),
+    }
+  })
+  return upcomingTimes;
 }
 
 export function searchByKeywords(string, keywords) {

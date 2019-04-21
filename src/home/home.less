@@ -1,5 +1,5 @@
 .home {
-  padding: 20px;
+  padding: 10px;
   width: 100%;
 
   .search-textfield {
@@ -83,8 +83,25 @@
   }
 
   .schedule-result {
+    margin-bottom: 20px;
+
+    .steps {
+      padding-left: 0;
+      padding-bottom: 0;
+      padding-right: 0;
+    }
 
     .station-name {
+    }
+
+    .times {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      > div {
+        min-width: 165px;
+      }
     }
 
     .time {
@@ -96,6 +113,7 @@
       margin-top: 0;
       font-style: italic;
       min-width: 80px;
+      font-size: 0.9em;
 
       &.item-0 {
         color: green;
