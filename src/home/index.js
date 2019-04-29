@@ -2,153 +2,126 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import _orderBy from 'lodash/orderBy';
 // import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import IconButton from '@material-ui/core/IconButton';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { stations, getTerminals } from '../data/stations';
+import { stations } from '../data/stations';
 import ScheduleResult from '../components/ScheduleResult';
-import Suggestions from '../components/Suggestions';
 import './home.less';
-import { get3UpcomingTimes, searchByKeywords, getNearbyStations, getNextStations } from '../utils/index';
-import { fetchTimeTables, setSelectedStation } from '../appActions';
-
+import { get3UpcomingTimes, getNextStations } from '../utils/index';
+import { fetchTimeTables, addRecentSearch } from '../appActions';
+import StationPicker from '../components/stationPicker';
 
 class Home extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      keywords: '',
-      suggestions: [],
-      selectedStation: null,
-      result1: null,
-      result2: null,
-      isFetchingLocation: false,
+      fromStation: null,
+      toStation: null,
+      result: null,
     };
   }
 
   componentDidMount() {
     if (this.props.timetables.length === 0) {
+      console.log('fetchTimeTables');
       this.props.fetchTimeTables();
     }
   }
 
-  handleOnChangeKeywords = (keywords) => {
-    const trimedKeywors = _.trim(keywords);
-    // console.log(keywords);
-    const suggestions = trimedKeywors.length === 0 ? [] : stations.filter(e => searchByKeywords(e.name, trimedKeywors));
-    this.setState({ keywords, suggestions, result1: null, result2: null, selectedStation: null });
+  handleOnChangeFromStation = (fromStation) => {
+    if (fromStation === null) {
+      this.setState({ fromStation: null, result: null });
+      return;
+    }
+    const newState = { fromStation };
+    if (this.state.toStation !== null && this.state.toStation.line !== fromStation.line) {
+      newState.toStation = null;
+    }
+    this.setState(newState, () => this.searchUpcomingTrains());
   }
 
-  handleOnSelectStation = (selectedStation) => {
-    const timetable = this.props.timetables.find(e => e.lineNum === selectedStation.line);
-    let result1 = null;
-    let result2 = null;
+  handleOnChangeToStation = (toStation) => {
+    if (toStation === null) {
+      this.setState({ toStation: null, result: null });
+      return;
+    }
+    const newState = { toStation };
+    if (this.state.fromStation !== null && this.state.fromStation.line !== toStation.line) {
+      newState.fromStation = null;
+    }
+    this.setState(newState, () => this.searchUpcomingTrains());
+  }
+
+  handleOnSelectRecentSearch = ({ fromStation, toStation }) => {
+    this.setState({ fromStation, toStation }, () => this.searchUpcomingTrains());
+  }
+
+  searchUpcomingTrains = () => {
+    const { fromStation, toStation } = this.state;
+    if (!fromStation || !toStation) {
+      this.setState({ result: null });
+      return;
+    }
+    const timetable = this.props.timetables.find(e => e.lineNum === fromStation.line);
+    let result = null;
     if (timetable !== undefined) {
-      result1 = get3UpcomingTimes(timetable.timetable1, selectedStation);
-      result2 = get3UpcomingTimes(timetable.timetable2, selectedStation);
+      result = get3UpcomingTimes(fromStation.order < toStation.order ? timetable.timetable1 : timetable.timetable2, fromStation);
     }
-    // console.log(timetable, result1, result2);
-    this.props.setSelectedStation(selectedStation);
-    // console.log(result1, result2);
-    this.setState({
-      selectedStation,
-      keywords: selectedStation.name,
-      suggestions: [],
-      result1,
-      result2,
-    });
-  }
-
-  handleOnGetNearbyStations = () => {
-    if (navigator.geolocation) {
-      this.setState({ isFetchingLocation: true, result1: null, result2: null, selectedStation: null, keywords: '' }, () => {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            // console.log('handleOnGetNearbyStations', position);
-            this.setState({ isFetchingLocation: false });
-            const { latitude, longitude } = position.coords;
-            const nearbyStations = getNearbyStations(latitude, longitude, stations);
-            this.setState({ suggestions: nearbyStations });
-            // console.log(nearbyStations);
-          },
-          (error) => {
-            console.log(error);
-            this.setState({ isFetchingLocation: false });
-            alert(error.message);
-          },
-        );
-      });
-    }
-  }
-
-  renderSuggestions() {
-    if (this.state.suggestions.length === 0) {
-      return null;
-    }
-    return (
-      <Suggestions
-        suggestions={this.state.suggestions}
-        onSelectStation={e => this.handleOnSelectStation(e)}
-        onClickOutside={() => this.setState({ suggestions: [] })}
-      />
-    );
-    // return (
-    //   <div className="suggestions">
-    //     <div>
-    //       <List component="nav">
-    //         {this.state.suggestions.map(e => (
-    //           <ListItem key={e.id} button onClick={() => this.handleOnSelectStation(e)}>
-    //             <ListItemText primary={e.name} />
-    //             <span className="line-name">
-    //               <i className="material-icons">tram</i>
-    //               {`${getLineName(e.line)}`}</span>
-    //           </ListItem>
-    //         ))}
-    //       </List>
-    //     </div>
-    //   </div>
-    // );
+    this.props.addRecentSearch(fromStation, toStation);
+    this.setState({ result });
   }
 
   renderResult() {
-    if (!this.state.selectedStation) {
+    if (!this.state.result) {
       return null;
     }
-    const [startStation, endStation] = getTerminals(this.state.selectedStation.line);
+    const { fromStation, toStation } = this.state;
     return (
       <div>
         <ScheduleResult
-          endStation={endStation}
-          selectedStation={this.state.selectedStation.name}
-          nextStations={getNextStations(this.state.selectedStation, stations, 1)}
-          result={this.state.result1}
-        />
-        <ScheduleResult
-          endStation={startStation}
-          selectedStation={this.state.selectedStation.name}
-          nextStations={getNextStations(this.state.selectedStation, stations, -1)}
-          result={this.state.result2}
+          endStation={toStation.name}
+          selectedStation={fromStation.name}
+          nextStations={getNextStations(stations, fromStation, toStation, 2)}
+          result={this.state.result}
         />
       </div>
     );
   }
 
-  renderLocationButton() {
-    if (!navigator.geolocation) {
-      return null;
-    }
-    if (this.state.isFetchingLocation) {
-      return (
-        <div className="icon">
-          <CircularProgress style={{ margin: 'auto' }} size={30} />
-        </div>
-      );
-    }
+  renderFromStationPicker() {
+    const toStation = this.state.toStation;
+    const list = toStation === null ? stations : _orderBy(stations, (e) => {
+      if (e.line === toStation.line) {
+        return -1;
+      }
+      return 1;
+    });
     return (
-      <IconButton title="Find nearby stations" role="button" tabIndex={0} className="icon" aria-label="Search" onClick={() => this.handleOnGetNearbyStations()}>
-        <i className="material-icons">location_on</i>
-      </IconButton>
+      <StationPicker
+        selectedStation={this.state.fromStation}
+        label="From station"
+        nearby
+        stations={list}
+        onChange={this.handleOnChangeFromStation}
+      />
+    );
+  }
+
+  renderToStationPicker() {
+    const fromStation = this.state.fromStation;
+    const list = fromStation === null ? stations : _orderBy(stations, (e) => {
+      if (e.line === fromStation.line) {
+        return -1;
+      }
+      return 1;
+    });
+    return (
+      <StationPicker
+        selectedStation={this.state.toStation}
+        label="To station"
+        stations={list}
+        onChange={this.handleOnChangeToStation}
+      />
     );
   }
 
@@ -156,36 +129,21 @@ class Home extends PureComponent {
     return (
       <div className="home">
         <h1>KTM Komuter Train Timetable</h1>
-        <div className="search-textfield">
-          <TextField
-            id="outlined-full-width"
-            label="Komuter KTM Timetable and Schedule"
-            placeholder="Enter station name"
-            fullWidth
-            margin="normal"
-            value={this.state.keywords}
-            onChange={event => this.handleOnChangeKeywords(event.target.value)}
-            variant="outlined"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          {this.state.keywords.length > 0 ?
-            <div title="Clear filter" role="button" tabIndex={0} className="icon" aria-label="Close" onClick={() => this.handleOnChangeKeywords('')}>
-              <i className="material-icons">close</i>
-            </div>
-            :
-            this.renderLocationButton()
-          }
-          {this.renderSuggestions()}
-        </div>
+        {this.renderFromStationPicker()}
+        {this.renderToStationPicker()}
         <div className="favorite-stations">
           <div className="stations">
             <i className="material-icons">history</i>
-            {this.props.recentStations.map(e => <span key={e.id} button="true" onClick={() => this.handleOnSelectStation(e)}>{e.name}</span>)}
+            {this.props.recentSearchs.map((e, index) => <span key={index} button="true" onClick={() => this.handleOnSelectRecentSearch(e)}>{`${e.fromStation.name} - ${e.toStation.name}`}</span>)}
           </div>
         </div>
         {this.renderResult()}
+        <div className="contact">
+          Please contact us at
+          <a href="https://www.facebook.com/ktmtimetable" target="_blank" rel="noopener noreferrer">
+            facebook.com/ktmtimetable
+          </a>
+        </div>
       </div>
     );
   }
@@ -193,25 +151,25 @@ class Home extends PureComponent {
 
 Home.propTypes = {
   timetables: PropTypes.instanceOf(Array),
-  recentStations: PropTypes.instanceOf(Array),
+  recentSearchs: PropTypes.instanceOf(Array),
   fetchTimeTables: PropTypes.func.isRequired,
-  setSelectedStation: PropTypes.func.isRequired,
+  addRecentSearch: PropTypes.func.isRequired,
 };
 
 Home.defaultProps = {
   timetables: [],
-  recentStations: [],
+  recentSearchs: [],
 };
 
 function mapStateToProps(state) {
   return {
     timetables: state.timetables,
-    recentStations: state.recentStations,
+    recentSearchs: state.recentSearchs,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Object.assign({}, { fetchTimeTables, setSelectedStation }), dispatch);
+  return bindActionCreators(Object.assign({}, { fetchTimeTables, addRecentSearch }), dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

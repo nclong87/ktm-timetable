@@ -5,6 +5,7 @@ export const stations = [
     lat: 3.684803,
     long: 101.518417,
     line: 1,
+    order: 1,
   },
   {
     id: 2,
@@ -12,6 +13,7 @@ export const stations = [
     lat: 3.553269,
     long: 101.639570,
     line: 1,
+    order: 2,
   },
   {
     id: 3,
@@ -19,6 +21,7 @@ export const stations = [
     lat: 3.500187,
     long: 101.634145,
     line: 1,
+    order: 3,
   },
   {
     id: 4,
@@ -26,6 +29,7 @@ export const stations = [
     lat: 3.468380,
     long: 101.637731,
     line: 1,
+    order: 4,
   },
   {
     id: 5,
@@ -33,6 +37,7 @@ export const stations = [
     lat: 3.375997,
     long: 101.614458,
     line: 1,
+    order: 5,
   },
   {
     id: 6,
@@ -40,6 +45,7 @@ export const stations = [
     lat: 3.318991,
     long: 101.574974,
     line: 1,
+    order: 6,
   },
   {
     id: 7,
@@ -47,6 +53,7 @@ export const stations = [
     lat: 3.258263,
     long: 101.554724,
     line: 1,
+    order: 7,
   },
   {
     id: 8,
@@ -54,6 +61,7 @@ export const stations = [
     lat: 3.206373,
     long: 101.580101,
     line: 1,
+    order: 8,
   },
   {
     id: 9,
@@ -61,6 +69,7 @@ export const stations = [
     lat: 3.208693,
     long: 101.628516,
     line: 1,
+    order: 9,
   },
   {
     id: 10,
@@ -68,6 +77,7 @@ export const stations = [
     lat: 3.202814,
     long: 101.637378,
     line: 1,
+    order: 10,
   },
   {
     id: 11,
@@ -75,6 +85,7 @@ export const stations = [
     lat: 3.186437,
     long: 101.664201,
     line: 1,
+    order: 11,
   },
   {
     id: 12,
@@ -82,6 +93,7 @@ export const stations = [
     lat: 3.165296,
     long: 101.691008,
     line: 1,
+    order: 12,
   },
   {
     id: 14,
@@ -89,6 +101,7 @@ export const stations = [
     lat: 3.154722,
     long: 101.693136,
     line: 1,
+    order: 13,
   },
   {
     id: 16,
@@ -96,6 +109,7 @@ export const stations = [
     lat: 3.134108,
     long: 101.686634,
     line: 1,
+    order: 14,
   },
   {
     id: 18,
@@ -103,6 +117,7 @@ export const stations = [
     lat: 3.118733,
     long: 101.673165,
     line: 1,
+    order: 15,
   },
   {
     id: 19,
@@ -110,6 +125,7 @@ export const stations = [
     lat: 3.113278,
     long: 101.673281,
     line: 1,
+    order: 16,
   },
   {
     id: 20,
@@ -117,6 +133,7 @@ export const stations = [
     lat: 3.095637,
     long: 101.670041,
     line: 1,
+    order: 17,
   },
   {
     id: 21,
@@ -124,6 +141,7 @@ export const stations = [
     lat: 3.086168,
     long: 101.664176,
     line: 1,
+    order: 18,
   },
   {
     id: 22,
@@ -131,6 +149,7 @@ export const stations = [
     lat: 3.083468,
     long: 101.656495,
     line: 1,
+    order: 19,
   },
   {
     id: 23,
@@ -138,6 +157,7 @@ export const stations = [
     lat: 3.084457,
     long: 101.632283,
     line: 1,
+    order: 20,
   },
   {
     id: 24,
@@ -145,6 +165,7 @@ export const stations = [
     lat: 3.084521,
     long: 101.621902,
     line: 1,
+    order: 21,
   },
   {
     id: 25,
@@ -152,6 +173,7 @@ export const stations = [
     lat: 3.083141,
     long: 101.611427,
     line: 1,
+    order: 22,
   },
   {
     id: 26,
@@ -159,6 +181,7 @@ export const stations = [
     lat: 3.084598,
     long: 101.587392,
     line: 1,
+    order: 23,
   },
   {
     id: 27,
@@ -166,6 +189,7 @@ export const stations = [
     lat: 3.075934,
     long: 101.559731,
     line: 1,
+    order: 24,
   },
   {
     id: 28,
@@ -173,6 +197,7 @@ export const stations = [
     lat: 3.056501,
     long: 101.525085,
     line: 1,
+    order: 25,
   },
   {
     id: 29,
@@ -180,6 +205,7 @@ export const stations = [
     lat: 3.052341,
     long: 101.492708,
     line: 1,
+    order: 26,
   },
   {
     id: 30,
@@ -187,6 +213,7 @@ export const stations = [
     lat: 3.036166,
     long: 101.470246,
     line: 1,
+    order: 27,
   },
   {
     id: 31,
@@ -194,6 +221,7 @@ export const stations = [
     lat: 3.043123,
     long: 101.449615,
     line: 1,
+    order: 28,
   },
   {
     id: 32,
@@ -201,6 +229,7 @@ export const stations = [
     lat: 3.040854,
     long: 101.432097,
     line: 1,
+    order: 29,
   },
   {
     id: 33,
@@ -208,6 +237,7 @@ export const stations = [
     lat: 3.033890,
     long: 101.424901,
     line: 1,
+    order: 30,
   },
   {
     id: 34,
@@ -215,6 +245,7 @@ export const stations = [
     lat: 3.020121,
     long: 101.410210,
     line: 1,
+    order: 31,
   },
   {
     id: 35,
@@ -222,6 +253,7 @@ export const stations = [
     lat: 3.013022,
     long: 101.402591,
     line: 1,
+    order: 32,
   },
   {
     id: 36,
@@ -229,6 +261,7 @@ export const stations = [
     lat: 2.999516,
     long: 101.391449,
     line: 1,
+    order: 33,
   },
   {
     id: 37,
@@ -236,6 +269,7 @@ export const stations = [
     lat: 3.237995,
     long: 101.681252,
     line: 2,
+    order: 1,
   },
   {
     id: 38,
@@ -243,6 +277,7 @@ export const stations = [
     lat: 3.214494,
     long: 101.672215,
     line: 2,
+    order: 2,
   },
   {
     id: 39,
@@ -250,6 +285,7 @@ export const stations = [
     lat: 3.204802,
     long: 101.675625,
     line: 2,
+    order: 3,
   },
   {
     id: 40,
@@ -257,6 +293,7 @@ export const stations = [
     lat: 3.198299,
     long: 101.681217,
     line: 2,
+    order: 4,
   },
   {
     id: 41,
@@ -264,6 +301,7 @@ export const stations = [
     lat: 3.182177,
     long: 101.688693,
     line: 2,
+    order: 5,
   },
   {
     id: 13,
@@ -271,6 +309,7 @@ export const stations = [
     lat: 3.165296,
     long: 101.691008,
     line: 2,
+    order: 6,
   },
   {
     id: 15,
@@ -278,6 +317,7 @@ export const stations = [
     lat: 3.154722,
     long: 101.693136,
     line: 2,
+    order: 7,
   },
   {
     id: 17,
@@ -285,6 +325,7 @@ export const stations = [
     lat: 3.134108,
     long: 101.686634,
     line: 2,
+    order: 8,
   },
   {
     id: 42,
@@ -292,6 +333,7 @@ export const stations = [
     lat: 3.118997,
     long: 101.678810,
     line: 2,
+    order: 9,
   },
   {
     id: 43,
@@ -299,6 +341,7 @@ export const stations = [
     lat: 3.113685,
     long: 101.681424,
     line: 2,
+    order: 10,
   },
   {
     id: 44,
@@ -306,6 +349,7 @@ export const stations = [
     lat: 3.098325,
     long: 101.704971,
     line: 2,
+    order: 11,
   },
   {
     id: 45,
@@ -313,6 +357,7 @@ export const stations = [
     lat: 3.076277,
     long: 101.711099,
     line: 2,
+    order: 12,
   },
   {
     id: 46,
@@ -320,6 +365,7 @@ export const stations = [
     lat: 3.023336,
     long: 101.715881,
     line: 2,
+    order: 13,
   },
   {
     id: 47,
@@ -327,6 +373,7 @@ export const stations = [
     lat: 2.983326,
     long: 101.790650,
     line: 2,
+    order: 14,
   },
   {
     id: 48,
@@ -334,6 +381,7 @@ export const stations = [
     lat: 2.939575,
     long: 101.787792,
     line: 2,
+    order: 15,
   },
   {
     id: 49,
@@ -341,6 +389,7 @@ export const stations = [
     lat: 2.904052,
     long: 101.786128,
     line: 2,
+    order: 16,
   },
   {
     id: 50,
@@ -348,6 +397,7 @@ export const stations = [
     lat: 2.830458,
     long: 101.826959,
     line: 2,
+    order: 17,
   },
   {
     id: 51,
@@ -355,6 +405,7 @@ export const stations = [
     lat: 2.802248,
     long: 101.799527,
     line: 2,
+    order: 18,
   },
   {
     id: 52,
@@ -362,6 +413,7 @@ export const stations = [
     lat: 2.754076,
     long: 101.826482,
     line: 2,
+    order: 19,
   },
   {
     id: 53,
@@ -369,6 +421,7 @@ export const stations = [
     lat: 2.741186,
     long: 101.871927,
     line: 2,
+    order: 20,
   },
   {
     id: 54,
@@ -376,6 +429,7 @@ export const stations = [
     lat: 2.718985,
     long: 101.940426,
     line: 2,
+    order: 21,
   },
   {
     id: 55,
@@ -383,6 +437,7 @@ export const stations = [
     lat: 2.690400,
     long: 101.971812,
     line: 2,
+    order: 22,
   },
   {
     id: 56,
@@ -390,6 +445,7 @@ export const stations = [
     lat: 2.660478,
     long: 101.996243,
     line: 2,
+    order: 23,
   },
   {
     id: 57,
@@ -397,6 +453,7 @@ export const stations = [
     lat: 2.592355,
     long: 102.095319,
     line: 2,
+    order: 24,
   },
   {
     id: 58,
@@ -404,6 +461,7 @@ export const stations = [
     lat: 2.463866,
     long: 102.226278,
     line: 2,
+    order: 25,
   },
 ];
 

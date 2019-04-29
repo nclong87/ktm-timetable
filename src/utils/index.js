@@ -68,15 +68,20 @@ export function getNearbyStations(lat, long, stations) {
   return array.sort((a, b) => a.distance - b.distance).slice(0, 10);
 }
 
-export function getNextStations(currentStation, stations, direction, num = 2) {
-  let index = stations.findIndex(e => e.id === currentStation.id);
+export function getNextStations(stations, fromStation, toStation, num = 2) {
+  let index = stations.findIndex(e => e.id === fromStation.id);
   const result = [];
+  const direction = fromStation.order < toStation.order ? 1 : -1;
   while (result.length < num) {
     index += direction;
     if (index < 0 || index >= direction.length) {
       break;
     }
-    result.push(stations[index]);
+    const station = stations[index];
+    if (station.id === toStation.id) {
+      break;
+    }
+    result.push(station);
   }
   return result;
 }

@@ -1,5 +1,5 @@
 import createReducer from './utils/createReducer';
-import { SET_TIMETABLES, SET_SELECTED_STATION } from './appActions';
+import { SET_TIMETABLES, ADD_RECENT_SEARCH } from './appActions';
 
 export const timetables = createReducer([], {
   [SET_TIMETABLES](state, action) {
@@ -7,10 +7,13 @@ export const timetables = createReducer([], {
   },
 });
 
-export const recentStations = createReducer([], {
-  [SET_SELECTED_STATION](state, action) {
-    const station = action.data;
-    const index = state.findIndex(e => e.id === station.id);
+export const appVersion = createReducer(null, {
+});
+
+export const recentSearchs = createReducer([], {
+  [ADD_RECENT_SEARCH](state, action) {
+    const { fromStation, toStation } = action.data;
+    const index = state.findIndex(e => e.fromStation.id === fromStation.id && e.toStation.id === toStation.id);
     if (index >= 0) {
       return state;
     }
@@ -21,7 +24,7 @@ export const recentStations = createReducer([], {
     //   return newState;
     // }
     const newState = state.slice(0, 2);
-    newState.unshift(station);
+    newState.unshift(action.data);
     return newState;
   },
 });

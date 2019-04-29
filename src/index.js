@@ -1,9 +1,11 @@
+/* global __LOCAL__:true */
 import 'babel-polyfill'; // fixing es6 issue in IE11
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import store from './appStore';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import configureStore from './appStore';
 import AppRouter from './appRouter';
 import './style.less';
 
@@ -12,36 +14,53 @@ class AppProvider extends Component {
     super(props);
     this.state = {
       isInitializing: true,
+      store: null,
+      persistor: null,
     };
   }
 
   componentDidMount() {
-    const unsubscribe = store.subscribe(() => {
-      if (store.getState().isHydrated) {
-        unsubscribe();
-        this.setState({
-          isInitializing: false,
-        });
-      }
+    configureStore().then((response) => {
+      this.setState({
+        isInitializing: false,
+        store: response.store,
+        persistor: response.persistor,
+      });
     });
+    // const unsubscribe = store.subscribe(() => {
+    //   console.log(store.getState());
+    //   if (store.getState().isHydrated) {
+    //     console.log('isHydrated');
+    //     unsubscribe();
+    //     this.setState({
+    //       isInitializing: false,
+    //     });
+    //   }
+    // });
+    // setTimeout(() => this.setState({ isInitializing: false }), 3000);
   }
 
   render() {
+    if (this.state.isInitializing) {
+      return <div className="loading-screen"><div /><span>Initializing...</span></div>;
+    }
     return (
-      <Provider store={store}>
-        <AppRouter />
+      <Provider store={this.state.store}>
+        <PersistGate loading={null} persistor={this.state.persistor}>
+          <AppRouter />
+        </PersistGate>
       </Provider>
     );
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <AppProvider />,
-    document.getElementById('app'),
-  );
-});
+ReactDOM.render(
+  <AppProvider />,
+  document.getElementById('app'),
+);
 
-module.hot.accept();
+if (__LOCAL__ === true) {
+  module.hot.accept();
+}
 
 export default AppProvider;

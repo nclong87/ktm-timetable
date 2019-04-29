@@ -1,6 +1,5 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+// const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -49,8 +48,8 @@ module.exports = {
     filename: 'bundle.js',
   },
   plugins: [
-    new CleanWebpackPlugin([Dir.build]),
-    new ExtractTextPlugin('style.css'),
+    // new CleanWebpackPlugin([Dir.build]),
+    // new ExtractTextPlugin('style.css'),
     // Minify JS
     new UglifyJSPlugin({
       sourceMap: false,
@@ -65,7 +64,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Komuter KTM Timetable and Schedule',
       hash: true,
-      template: `${__dirname}/dist/index.html`,
+      template: `${__dirname}/www/index.html`,
     }),
   ],
 };
