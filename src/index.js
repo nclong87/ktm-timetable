@@ -4,10 +4,24 @@ import 'babel-polyfill'; // fixing es6 issue in IE11
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { createMuiTheme } from '@material-ui/core/styles';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import configureStore from './appStore';
 import AppRouter from './appRouter';
 import './style.less';
+
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+  fontFamily: 'helvetica neue, helvetica',
+  palette: {
+    primary: {
+      main: '#36425A',
+    },
+  },
+});
 
 class AppProvider extends Component {
   constructor(props) {
@@ -47,7 +61,9 @@ class AppProvider extends Component {
     return (
       <Provider store={this.state.store}>
         <PersistGate loading={null} persistor={this.state.persistor}>
-          <AppRouter />
+          <MuiThemeProvider theme={theme}>
+            <AppRouter />
+          </MuiThemeProvider>
         </PersistGate>
       </Provider>
     );

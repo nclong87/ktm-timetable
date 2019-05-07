@@ -128,7 +128,6 @@ class Home extends PureComponent {
   render() {
     return (
       <div className="home">
-        <h1>KTM Komuter Train Timetable</h1>
         {this.renderFromStationPicker()}
         {this.renderToStationPicker()}
         <div className="favorite-stations">
@@ -138,12 +137,6 @@ class Home extends PureComponent {
           </div>
         </div>
         {this.renderResult()}
-        <div className="contact">
-          Please contact us at
-          <a href="https://www.facebook.com/ktmtimetable" target="_blank" rel="noopener noreferrer">
-            facebook.com/ktmtimetable
-          </a>
-        </div>
       </div>
     );
   }
