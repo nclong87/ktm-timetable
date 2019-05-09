@@ -5,7 +5,6 @@ const _ = require('lodash');
 
 export function get3UpcomingTimes(timetable, station) {
   const times = timetable.find(e => e.id === station.id);
-  // console.log(times);
   const now = moment.now();
   const array = [];
   for (const property in times) {
@@ -22,20 +21,9 @@ export function get3UpcomingTimes(timetable, station) {
                 m,
               });
             }
-            // if (moment1.isBefore(now)) {
-            //   moment1.add(1, 'd');
-            // }
-            // var fromNow = moment1.fromNow();
-            // if (moment1.isValid() && fromNow.indexOf("ago") < 0) {
-            //     upcomingTimes.push({
-            //       time: times[property],
-            //       fromNow,
-            //     });
-            // }
         }
     }
   }
-  // console.log(array);
   const upcomingTimes = array.sort((a, b) => a.diff - b.diff).slice(0, 15).map(({ time, m}) => {
     return {
       time,
