@@ -36,7 +36,7 @@ export function get3UpcomingTimes(timetable, station) {
     }
   }
   // console.log(array);
-  const upcomingTimes = array.sort((a, b) => a.diff - b.diff).slice(0, 3).map(({ time, m}) => {
+  const upcomingTimes = array.sort((a, b) => a.diff - b.diff).slice(0, 15).map(({ time, m}) => {
     return {
       time,
       fromNow: m.fromNow(),
