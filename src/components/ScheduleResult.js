@@ -13,19 +13,19 @@ class ScheduleResult extends PureComponent {
       <div className="schedule-result">
         <Stepper className="steps" alternativeLabel nonLinear>
           <Step key={0} completed>
-            <StepLabel icon={<i className="material-icons" style={{ color: 'green' }}>tram</i>}>{this.props.selectedStation}</StepLabel>
+            <StepLabel icon={<i className="fas fa-subway" style={{ color: 'green' }} />}>{this.props.selectedStation}</StepLabel>
           </Step>
           {this.props.nextStations.map(e => (
-            <Step key={e.id}><StepLabel icon={<i className="material-icons">tram</i>}>{e.name}</StepLabel></Step>
+            <Step key={e.id}><StepLabel icon={<i className="fas fa-subway" />}>{e.name}</StepLabel></Step>
           ))}
           <Step key={999}>
-            <StepLabel icon={<i className="material-icons">tram</i>}>{this.props.endStation}</StepLabel></Step>
+            <StepLabel icon={<i className="fas fa-subway" />}>{this.props.endStation}</StepLabel></Step>
         </Stepper>
         <div className="times">
           {this.props.result.map((e, index) => (
             <div key={index}>
               <p className={`time item-${index}`}>
-                <i className="material-icons">timer</i>
+                <i className="far fa-clock"></i>
                 {e.fromNow} ({e.time})
               </p>
             </div>

@@ -2,13 +2,15 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Switch from '@material-ui/core/Switch';
+import { TimePicker } from 'material-ui-pickers';
 import _orderBy from 'lodash/orderBy';
 // import Button from '@material-ui/core/Button';
 import { stations } from '../data/stations';
 import ScheduleResult from '../components/ScheduleResult';
 import './home.less';
-import { get3UpcomingTimes, getNextStations } from '../utils/index';
-import { fetchTimeTables, addRecentSearch } from '../appActions';
+import { get3UpcomingTimes, getNextStations, formatDate } from '../utils/index';
+import { fetchTimeTables, addRecentSearch, onChangeAdvancedSearchState } from '../appActions';
 import StationPicker from '../components/stationPicker';
 
 class Home extends PureComponent {
@@ -17,8 +19,10 @@ class Home extends PureComponent {
     this.state = {
       fromStation: null,
       toStation: null,
+      departTime: null,
       result: null,
     };
+    this.handleOnChangeDepartTime = this.handleOnChangeDepartTime.bind(this);
   }
 
   componentDidMount() {
@@ -56,6 +60,13 @@ class Home extends PureComponent {
     this.setState({ fromStation, toStation }, () => this.searchUpcomingTrains());
   }
 
+  handleOnChangeDepartTime(departTime) {
+    this.setState({ departTime }, () => {
+      this.timePicker.close();
+      this.searchUpcomingTrains();
+    });
+  }
+
   searchUpcomingTrains = () => {
     const { fromStation, toStation } = this.state;
     if (!fromStation || !toStation) {
@@ -65,7 +76,7 @@ class Home extends PureComponent {
     const timetable = this.props.timetables.find(e => e.lineNum === fromStation.line);
     let result = null;
     if (timetable !== undefined) {
-      result = get3UpcomingTimes(fromStation.order < toStation.order ? timetable.timetable1 : timetable.timetable2, fromStation);
+      result = get3UpcomingTimes(fromStation.order < toStation.order ? timetable.timetable1 : timetable.timetable2, fromStation, this.state.departTime);
     }
     this.props.addRecentSearch(fromStation, toStation);
     this.setState({ result });
@@ -125,14 +136,44 @@ class Home extends PureComponent {
     );
   }
 
+  renderAdvancedSearchCheckbox() {
+    return (
+      <div className="advance-search-checkbox" >
+        Advanced search <Switch checked={this.props.advancedSearchEnabled} onChange={(event, checked) => this.props.onChangeAdvancedSearchState(checked)} color="primary" />
+      </div>
+    );
+  }
+
+  renderDepartTime() {
+    const departTime = this.state.departTime;
+    return (
+      <div className="depart-time" title="Change depart time" role="button" tabIndex={0} onClick={() => this.timePicker.open()}>
+        <div style={{ display: 'none' }}>
+          <TimePicker
+            showTodayButton
+            ref={(r) => { this.timePicker = r; }}
+            label="Time picker"
+            onChange={this.handleOnChangeDepartTime}
+          />
+        </div>
+        <i className="far fa-clock" />
+        <i>Depart {departTime === null ? 'now' : `at ${formatDate(departTime, 'HH:mm')}`}</i>
+        <i className="fas fa-chevron-down" />
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="home">
-        {this.renderFromStationPicker()}
-        {this.renderToStationPicker()}
+        <div className="search">
+          {this.renderDepartTime()}
+          {this.renderFromStationPicker()}
+          {this.renderToStationPicker()}
+        </div>
         <div className="favorite-stations">
           <div className="stations">
-            <i className="material-icons">history</i>
+            <i className="fas fa-history"></i>
             {this.props.recentSearchs.map((e, index) => <span key={index} button="true" onClick={() => this.handleOnSelectRecentSearch(e)}>{`${e.fromStation.name} - ${e.toStation.name}`}</span>)}
           </div>
         </div>
@@ -147,22 +188,26 @@ Home.propTypes = {
   recentSearchs: PropTypes.instanceOf(Array),
   fetchTimeTables: PropTypes.func.isRequired,
   addRecentSearch: PropTypes.func.isRequired,
+  onChangeAdvancedSearchState: PropTypes.func.isRequired,
+  advancedSearchEnabled: PropTypes.bool,
 };
 
 Home.defaultProps = {
   timetables: [],
   recentSearchs: [],
+  advancedSearchEnabled: false,
 };
 
 function mapStateToProps(state) {
   return {
     timetables: state.timetables,
     recentSearchs: state.recentSearchs,
+    advancedSearchEnabled: state.advancedSearchEnabled,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Object.assign({}, { fetchTimeTables, addRecentSearch }), dispatch);
+  return bindActionCreators(Object.assign({}, { fetchTimeTables, addRecentSearch, onChangeAdvancedSearchState }), dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

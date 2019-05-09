@@ -115,7 +115,7 @@ class AppHeader extends PureComponent {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h7" color="inherit" noWrap>
+            <Typography color="inherit" noWrap>
               KTM Komuter Train Timetable
             </Typography>
           </Toolbar>

@@ -72,7 +72,7 @@ class StationPicker extends PureComponent {
     }
     return (
       <IconButton title="Find nearby stations" role="button" tabIndex={0} className="icon" aria-label="Search" onClick={() => this.handleOnGetNearbyStations()}>
-        <i className="material-icons">location_on</i>
+        <i className="fas fa-map-marker-alt"></i>
       </IconButton>
     );
   }
@@ -110,7 +110,7 @@ class StationPicker extends PureComponent {
         />
         {this.state.keywords.length > 0 ?
           <div title="Clear filter" role="button" tabIndex={0} className="icon" aria-label="Close" onClick={() => this.handleOnChangeKeywords('')}>
-            <i className="material-icons">close</i>
+            <i className="fas fa-times"></i>
           </div>
           :
           this.renderLocationButton()

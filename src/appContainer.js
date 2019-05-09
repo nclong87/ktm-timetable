@@ -1,13 +1,17 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import AppHeader from './components/appHeader';
 
 class AppContainer extends PureComponent {
   render() {
     return (
-      <div style={{ width: '100%' }}>
+      <div style={{ width: '100%', padding: 10 }}>
         <AppHeader />
-        {this.props.children}
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          {this.props.children}
+        </MuiPickersUtilsProvider>
       </div>
     );
   }

@@ -4,7 +4,7 @@ npm start
 # build
 npm run build
 
-# change direction to dist
+# change directory to dist
 cd dist
 
 # zip
