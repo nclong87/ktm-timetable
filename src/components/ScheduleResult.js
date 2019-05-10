@@ -26,7 +26,7 @@ class ScheduleResult extends PureComponent {
             <div key={index}>
               <p className={`time item-${index}`}>
                 <i className="far fa-clock"></i>
-                {e.fromNow} ({e.time})
+                {e.time} {e.fromNow}
               </p>
             </div>
           ))}

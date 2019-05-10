@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Switch from '@material-ui/core/Switch';
 import { TimePicker } from 'material-ui-pickers';
+import IconButton from '@material-ui/core/IconButton';
 import _orderBy from 'lodash/orderBy';
 // import Button from '@material-ui/core/Button';
 import { stations } from '../data/stations';
@@ -21,8 +22,10 @@ class Home extends PureComponent {
       toStation: null,
       departTime: null,
       result: null,
+      openTimePicker: false,
     };
     this.handleOnChangeDepartTime = this.handleOnChangeDepartTime.bind(this);
+    this.handleOnSwapStations = this.handleOnSwapStations.bind(this);
   }
 
   componentDidMount() {
@@ -56,13 +59,20 @@ class Home extends PureComponent {
     this.setState(newState, () => this.searchUpcomingTrains());
   }
 
+  handleOnSwapStations() {
+    this.setState({
+      fromStation: this.state.toStation,
+      toStation: this.state.fromStation,
+    }, () => this.searchUpcomingTrains());
+  }
+
   handleOnSelectRecentSearch = ({ fromStation, toStation }) => {
     this.setState({ fromStation, toStation }, () => this.searchUpcomingTrains());
   }
 
   handleOnChangeDepartTime(departTime) {
-    this.setState({ departTime }, () => {
-      this.timePicker.close();
+    this.setState({ departTime, openTimePicker: false }, () => {
+      // this.timePicker.close();
       this.searchUpcomingTrains();
     });
   }
@@ -147,18 +157,23 @@ class Home extends PureComponent {
   renderDepartTime() {
     const departTime = this.state.departTime;
     return (
-      <div className="depart-time" title="Change depart time" role="button" tabIndex={0} onClick={() => this.timePicker.open()}>
-        <div style={{ display: 'none' }}>
-          <TimePicker
-            showTodayButton
-            ref={(r) => { this.timePicker = r; }}
-            label="Time picker"
-            onChange={this.handleOnChangeDepartTime}
-          />
-        </div>
+      <div className="depart-time" title="Change depart time" role="button" tabIndex={0} onClick={() => this.setState({ openTimePicker: true })}>
         <i className="far fa-clock" />
         <i>Depart {departTime === null ? 'now' : `at ${formatDate(departTime, 'HH:mm')}`}</i>
         <i className="fas fa-chevron-down" />
+      </div>
+    );
+  }
+
+  renderSwapButton() {
+    if (!this.state.fromStation && !this.state.toStation) {
+      return null;
+    }
+    return (
+      <div className="switch">
+        <IconButton title="Swap stations" role="button" tabIndex={0} className="icon" onClick={() => this.handleOnSwapStations()}>
+          <i className="fas fa-retweet"></i>
+        </IconButton>
       </div>
     );
   }
@@ -167,14 +182,22 @@ class Home extends PureComponent {
     return (
       <div className="home">
         <div className="search">
+          <div style={{ display: 'none' }}>
+            <TimePicker
+              DialogProps={{ open: this.state.openTimePicker }}
+              label="Time picker"
+              onChange={this.handleOnChangeDepartTime}
+              onClose={() => this.setState({ openTimePicker: false })}
+            />
+          </div>
           {this.renderDepartTime()}
           {this.renderFromStationPicker()}
+          {this.renderSwapButton()}
           {this.renderToStationPicker()}
         </div>
         <div className="favorite-stations">
           <div className="stations">
-            <i className="fas fa-history"></i>
-            {this.props.recentSearchs.map((e, index) => <span key={index} button="true" onClick={() => this.handleOnSelectRecentSearch(e)}>{`${e.fromStation.name} - ${e.toStation.name}`}</span>)}
+            {this.props.recentSearchs.slice(0, 2).map((e, index) => <span key={index} button="true" onClick={() => this.handleOnSelectRecentSearch(e)}>{`${e.fromStation.name} - ${e.toStation.name}`}</span>)}
           </div>
         </div>
         {this.renderResult()}
