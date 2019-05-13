@@ -7,7 +7,7 @@ import AppHeader from './components/appHeader';
 class AppContainer extends PureComponent {
   render() {
     return (
-      <div style={{ width: '100%', padding: 10 }}>
+      <div style={{ width: '100%' }}>
         <AppHeader />
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           {this.props.children}

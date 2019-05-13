@@ -184,6 +184,8 @@ class Home extends PureComponent {
         <div className="search">
           <div style={{ display: 'none' }}>
             <TimePicker
+              showTodayButton
+              todayLabel="NOW"
               DialogProps={{ open: this.state.openTimePicker }}
               label="Time picker"
               onChange={this.handleOnChangeDepartTime}

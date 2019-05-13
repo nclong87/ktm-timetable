@@ -102,7 +102,7 @@ class AppHeader extends PureComponent {
       <div>
         <div className="app-header">
           <AppBar
-            position="fixed"
+            position="relative"
             className={classNames(classes.appBar, {
               [classes.appBarShift]: open,
             })}

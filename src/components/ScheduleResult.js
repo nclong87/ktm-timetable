@@ -4,11 +4,32 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 
+const moment = require('moment');
+
 class ScheduleResult extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      now: moment.now(),
+    };
+    this.timer = null;
+  }
+
+  componentDidMount() {
+    this.timer = window.setInterval(() => {
+      this.setState({ now: moment.now() });
+    }, 5000);
+  }
+
+  componentWillUnmount() {
+    window.clearInterval(this.timer);
+  }
+
   render() {
     if (this.props.result === null) {
       return null;
     }
+    const now = this.state.now;
     return (
       <div className="schedule-result">
         <Stepper className="steps" alternativeLabel nonLinear>
@@ -26,7 +47,7 @@ class ScheduleResult extends PureComponent {
             <div key={index}>
               <p className={`time item-${index}`}>
                 <i className="far fa-clock"></i>
-                {e.time} {e.fromNow}
+                {e.time} {e.m.isBefore(now) ? '' : `(${e.m.from(now)})`}
               </p>
             </div>
           ))}

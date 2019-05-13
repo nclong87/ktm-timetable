@@ -20,8 +20,8 @@ export function formatDate(date, format = 'MM/DD/YYYY') {
 
 export function get3UpcomingTimes(timetable, station, time = null) {
   const times = timetable.find(e => e.id === station.id);
-  const now = moment.now();
-  const departTime = time === null ? now : moment(time);
+  // const now = moment.now();
+  const departTime = time === null ? moment.now() : moment(time);
   const array = [];
   for (const property in times) {
     if (_.startsWith(property, 'value') && times.hasOwnProperty(property)) {
@@ -46,7 +46,8 @@ export function get3UpcomingTimes(timetable, station, time = null) {
     // }
     return {
       time,
-      fromNow: m.isBefore(now) ? '' : `(${m.fromNow()})`,
+      m,
+      // fromNow: m.isBefore(now) ? '' : `(${m.fromNow()})`,
     }
   })
   return upcomingTimes;
