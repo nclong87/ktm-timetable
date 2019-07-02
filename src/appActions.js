@@ -1,6 +1,6 @@
 
-import { timetable1 as t11, timetable2 as t12 } from './data/line1_ramadan';
-import { timetable1 as t21, timetable2 as t22 } from './data/line2_ramadan';
+import { timetable1 as t11, timetable2 as t12 } from './data/line1';
+import { timetable1 as t21, timetable2 as t22 } from './data/line2';
 
 export const SET_TIMETABLES = 'SET_TIMETABLES';
 export const ADD_RECENT_SEARCH = 'ADD_RECENT_SEARCH';
