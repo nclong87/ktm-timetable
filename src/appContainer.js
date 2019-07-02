@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import AppHeader from './components/appHeader';
 
 class AppContainer extends PureComponent {
@@ -7,7 +9,9 @@ class AppContainer extends PureComponent {
     return (
       <div style={{ width: '100%' }}>
         <AppHeader />
-        {this.props.children}
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          {this.props.children}
+        </MuiPickersUtilsProvider>
       </div>
     );
   }

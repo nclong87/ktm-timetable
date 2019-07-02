@@ -3,31 +3,51 @@
 const moment = require('moment');
 const _ = require('lodash');
 
-export function get3UpcomingTimes(timetable, station) {
+// export function getDepartTime(departTime) {
+//   const now = moment.now();
+//   // const hours = departTime.getHours();
+//   // const minutes = departTime.getMinutes();
+//   if (m.isBefore(now)) {
+//     console.log('isBefore');
+//   } else {
+//     console.log('isAfter');
+//   }
+// }
+
+export function formatDate(date, format = 'MM/DD/YYYY') {
+  return moment(date).format(format);
+}
+
+export function get3UpcomingTimes(timetable, station, time = null) {
   const times = timetable.find(e => e.id === station.id);
-  const now = moment.now();
+  // const now = moment.now();
+  const departTime = time === null ? moment.now() : moment(time);
   const array = [];
   for (const property in times) {
     if (_.startsWith(property, 'value') && times.hasOwnProperty(property)) {
         if (times[property]) {
             let m = moment(times[property], "HH:mm");
             if (m.isValid()) {
-              if (m.isBefore(now)) {
+              if (m.isBefore(departTime)) {
                 m.add(1, 'd');
               }
               array.push({
                 time: times[property],
-                diff:  m.diff(now),
+                diff:  m.diff(departTime),
                 m,
               });
             }
         }
     }
   }
-  const upcomingTimes = array.sort((a, b) => a.diff - b.diff).slice(0, 15).map(({ time, m}) => {
+  const upcomingTimes = array.sort((a, b) => a.diff - b.diff).slice(0, 3).map(({ time, m}) => {
+    // if (m.isBefore(now)) {
+    //   m.add(1, 'd');
+    // }
     return {
       time,
-      fromNow: m.fromNow(),
+      m,
+      // fromNow: m.isBefore(now) ? '' : `(${m.fromNow()})`,
     }
   })
   return upcomingTimes;

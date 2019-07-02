@@ -88,17 +88,23 @@ class Menu extends PureComponent {
         </div>
         <Divider />
         <List className="app-menu">
+          <a rel="noopener noreferrer" style={{ color: '#3578E5', textDecoration: 'none' }} target="_blank" href="https://m.me/ktmtimetable/">
+            <ListItem button key="messenger">
+              <i className="fab fa-facebook-messenger" style={{ fontSize: 25 }}></i>
+              <span className="text">Messenger</span>
+            </ListItem>
+          </a>
           <a rel="noopener noreferrer" style={{ color: '#3578E5', textDecoration: 'none' }} target="_blank" href="https://www.facebook.com/ktmtimetable/">
             <ListItem button key="facebook">
               <i className="fab fa-facebook-square" style={{ fontSize: 25 }}></i>
               <span className="text">Fan Page</span>
             </ListItem>
-            <a href="mailto:ktmtimetable@gmail.com" style={{ color: '#222', textDecoration: 'none' }}>
-              <ListItem button key="gmail">
-                <i className="fas fa-envelope" style={{ fontSize: 25 }}></i>
-                <span className="text">Ktmtimetable@gmail.com</span>
-              </ListItem>
-            </a>
+          </a>
+          <a href="mailto:ktmtimetable@gmail.com" style={{ color: '#222', textDecoration: 'none' }}>
+            <ListItem button key="gmail">
+              <i className="fas fa-envelope" style={{ fontSize: 25 }}></i>
+              <span className="text">Ktmtimetable@gmail.com</span>
+            </ListItem>
           </a>
         </List>
       </Drawer>

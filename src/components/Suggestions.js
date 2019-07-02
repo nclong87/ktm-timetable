@@ -42,7 +42,7 @@ class Suggestions extends PureComponent {
                   <span className="station-name">{e.name}</span>
                 </ListItemText>
                 <span className="line-name">
-                  <i className="material-icons">tram</i>
+                  <i className="fas fa-subway"></i>
                   {`${getLineName(e.line)}`}</span>
               </ListItem>
             ))}

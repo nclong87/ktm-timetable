@@ -4,6 +4,7 @@ import { timetable1 as t21, timetable2 as t22 } from './data/line2';
 
 export const SET_TIMETABLES = 'SET_TIMETABLES';
 export const ADD_RECENT_SEARCH = 'ADD_RECENT_SEARCH';
+export const CHANGE_ADVANCED_SEARCH_STATE = 'CHANGE_ADVANCED_SEARCH_STATE';
 
 export function fetchTimeTables() {
   return {
@@ -27,5 +28,12 @@ export function addRecentSearch(fromStation, toStation) {
   return {
     type: ADD_RECENT_SEARCH,
     data: { fromStation, toStation },
+  };
+}
+
+export function onChangeAdvancedSearchState(isEnabled) {
+  return {
+    type: CHANGE_ADVANCED_SEARCH_STATE,
+    data: isEnabled,
   };
 }

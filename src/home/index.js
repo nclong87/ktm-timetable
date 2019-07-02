@@ -2,13 +2,16 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Switch from '@material-ui/core/Switch';
+import { TimePicker } from 'material-ui-pickers';
+import IconButton from '@material-ui/core/IconButton';
 import _orderBy from 'lodash/orderBy';
 // import Button from '@material-ui/core/Button';
 import { stations } from '../data/stations';
 import ScheduleResult from '../components/ScheduleResult';
 import './home.less';
-import { get3UpcomingTimes, getNextStations } from '../utils/index';
-import { fetchTimeTables, addRecentSearch } from '../appActions';
+import { get3UpcomingTimes, getNextStations, formatDate } from '../utils/index';
+import { fetchTimeTables, addRecentSearch, onChangeAdvancedSearchState } from '../appActions';
 import StationPicker from '../components/stationPicker';
 
 class Home extends PureComponent {
@@ -17,8 +20,12 @@ class Home extends PureComponent {
     this.state = {
       fromStation: null,
       toStation: null,
+      departTime: null,
       result: null,
+      openTimePicker: false,
     };
+    this.handleOnChangeDepartTime = this.handleOnChangeDepartTime.bind(this);
+    this.handleOnSwapStations = this.handleOnSwapStations.bind(this);
   }
 
   componentDidMount() {
@@ -52,8 +59,22 @@ class Home extends PureComponent {
     this.setState(newState, () => this.searchUpcomingTrains());
   }
 
+  handleOnSwapStations() {
+    this.setState({
+      fromStation: this.state.toStation,
+      toStation: this.state.fromStation,
+    }, () => this.searchUpcomingTrains());
+  }
+
   handleOnSelectRecentSearch = ({ fromStation, toStation }) => {
     this.setState({ fromStation, toStation }, () => this.searchUpcomingTrains());
+  }
+
+  handleOnChangeDepartTime(departTime) {
+    this.setState({ departTime, openTimePicker: false }, () => {
+      // this.timePicker.close();
+      this.searchUpcomingTrains();
+    });
   }
 
   searchUpcomingTrains = () => {
@@ -65,7 +86,7 @@ class Home extends PureComponent {
     const timetable = this.props.timetables.find(e => e.lineNum === fromStation.line);
     let result = null;
     if (timetable !== undefined) {
-      result = get3UpcomingTimes(fromStation.order < toStation.order ? timetable.timetable1 : timetable.timetable2, fromStation);
+      result = get3UpcomingTimes(fromStation.order < toStation.order ? timetable.timetable1 : timetable.timetable2, fromStation, this.state.departTime);
     }
     this.props.addRecentSearch(fromStation, toStation);
     this.setState({ result });
@@ -125,15 +146,60 @@ class Home extends PureComponent {
     );
   }
 
+  renderAdvancedSearchCheckbox() {
+    return (
+      <div className="advance-search-checkbox" >
+        Advanced search <Switch checked={this.props.advancedSearchEnabled} onChange={(event, checked) => this.props.onChangeAdvancedSearchState(checked)} color="primary" />
+      </div>
+    );
+  }
+
+  renderDepartTime() {
+    const departTime = this.state.departTime;
+    return (
+      <div className="depart-time" title="Change depart time" role="button" tabIndex={0} onClick={() => this.setState({ openTimePicker: true })}>
+        <i className="far fa-clock" />
+        <i>Depart {departTime === null ? 'now' : `at ${formatDate(departTime, 'HH:mm')}`}</i>
+        <i className="fas fa-chevron-down" />
+      </div>
+    );
+  }
+
+  renderSwapButton() {
+    if (!this.state.fromStation && !this.state.toStation) {
+      return null;
+    }
+    return (
+      <div className="switch">
+        <IconButton title="Swap stations" role="button" tabIndex={0} className="icon" onClick={() => this.handleOnSwapStations()}>
+          <i className="fas fa-retweet"></i>
+        </IconButton>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="home">
-        {this.renderFromStationPicker()}
-        {this.renderToStationPicker()}
+        <div className="search">
+          <div style={{ display: 'none' }}>
+            <TimePicker
+              showTodayButton
+              todayLabel="NOW"
+              DialogProps={{ open: this.state.openTimePicker }}
+              label="Time picker"
+              onChange={this.handleOnChangeDepartTime}
+              onClose={() => this.setState({ openTimePicker: false })}
+            />
+          </div>
+          {this.renderDepartTime()}
+          {this.renderFromStationPicker()}
+          {this.renderSwapButton()}
+          {this.renderToStationPicker()}
+        </div>
         <div className="favorite-stations">
           <div className="stations">
-            <i className="material-icons">history</i>
-            {this.props.recentSearchs.map((e, index) => <span key={index} button="true" onClick={() => this.handleOnSelectRecentSearch(e)}>{`${e.fromStation.name} - ${e.toStation.name}`}</span>)}
+            {this.props.recentSearchs.slice(0, 2).map((e, index) => <span key={index} button="true" onClick={() => this.handleOnSelectRecentSearch(e)}>{`${e.fromStation.name} - ${e.toStation.name}`}</span>)}
           </div>
         </div>
         {this.renderResult()}
@@ -147,22 +213,26 @@ Home.propTypes = {
   recentSearchs: PropTypes.instanceOf(Array),
   fetchTimeTables: PropTypes.func.isRequired,
   addRecentSearch: PropTypes.func.isRequired,
+  onChangeAdvancedSearchState: PropTypes.func.isRequired,
+  advancedSearchEnabled: PropTypes.bool,
 };
 
 Home.defaultProps = {
   timetables: [],
   recentSearchs: [],
+  advancedSearchEnabled: false,
 };
 
 function mapStateToProps(state) {
   return {
     timetables: state.timetables,
     recentSearchs: state.recentSearchs,
+    advancedSearchEnabled: state.advancedSearchEnabled,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Object.assign({}, { fetchTimeTables, addRecentSearch }), dispatch);
+  return bindActionCreators(Object.assign({}, { fetchTimeTables, addRecentSearch, onChangeAdvancedSearchState }), dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

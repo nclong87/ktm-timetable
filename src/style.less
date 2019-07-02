@@ -6,7 +6,6 @@ html {
 
   body {
     display: flex;
-    min-height: 100vh;
     margin: auto;
 
     .app-container {
@@ -23,9 +22,36 @@ html {
         }
       }
 
+      div.news {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+
+        i {
+          margin-right: 5px;
+          color: brown;
+        }
+        span.warning {
+          display: block;
+          text-align: center;
+          color: brown;
+          font-size: 14px;
+        }
+      }
       .app-header {
         display: block;
-        height: 70px;
+        min-height: 55px;
+
+        h1.title {
+          text-align: center;
+          display: block;
+          width: 100%;
+          overflow: hidden;
+          white-space: nowrap;
+          font-size: 1em;
+          font-weight: normal;
+          padding-right: 50px;
+        }
       }
 
       .loading-screen {

@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 // import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 // import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -99,28 +99,32 @@ class AppHeader extends PureComponent {
     const { classes } = this.props;
     const { open } = this.state;
     return (
-      <div className="app-header">
-        <AppBar
-          position="fixed"
-          className={classNames(classes.appBar, {
-            [classes.appBarShift]: open,
-          })}
-        >
-          <Toolbar disableGutters={!open}>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerOpen}
-              className={classNames(classes.menuButton, open && classes.hide)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h7" color="inherit" noWrap>
-              KTM Komuter Train Timetable
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Menu open={open} onClose={this.handleDrawerClose} />
+      <div>
+        <div className="app-header">
+          <AppBar
+            position="relative"
+            className={classNames(classes.appBar, {
+              [classes.appBarShift]: open,
+            })}
+          >
+            <Toolbar disableGutters={!open}>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.handleDrawerOpen}
+                className={classNames(classes.menuButton, open && classes.hide)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <h1 className="title">KTM Komuter Train Timetable</h1>
+            </Toolbar>
+          </AppBar>
+          <Menu open={open} onClose={this.handleDrawerClose} />
+        </div>
+        <div className="news">
+          <i className="fas fa-bullhorn" />
+          <span className="warning">Ramadan schedule updated 2019!!!</span>
+        </div>
       </div>
     );
   }
