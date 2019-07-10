@@ -6,6 +6,7 @@ import Switch from '@material-ui/core/Switch';
 import { TimePicker } from 'material-ui-pickers';
 import IconButton from '@material-ui/core/IconButton';
 import _orderBy from 'lodash/orderBy';
+import _cloneDeep from 'lodash/cloneDeep';
 // import Button from '@material-ui/core/Button';
 import { stations } from '../data/stations';
 import ScheduleResult from '../components/ScheduleResult';
@@ -13,6 +14,39 @@ import './home.less';
 import { get3UpcomingTimes, getNextStations, formatDate } from '../utils/index';
 import { fetchTimeTables, addRecentSearch, onChangeAdvancedSearchState } from '../appActions';
 import StationPicker from '../components/stationPicker';
+
+function getListStationsForPicker(toStation) {
+  let list = null;
+  if (toStation === null) {
+    list = stations;
+  } else if (toStation.conjunction === true) {
+    list = [];
+    stations.forEach((station) => {
+      if (station.conjunction === true) {
+        station.lines.forEach((line) => {
+          list.push({
+            id: line.id,
+            name: station.name,
+            lat: station.lat,
+            long: station.long,
+            line: line.line,
+            order: line.order,
+          });
+        });
+      } else {
+        list.push(station);
+      }
+    });
+  } else {
+    list = _orderBy(stations, (e) => {
+      if (e.line === toStation.line) {
+        return -1;
+      }
+      return 1;
+    });
+  }
+  return list;
+}
 
 class Home extends PureComponent {
   constructor(props) {
@@ -26,37 +60,61 @@ class Home extends PureComponent {
     };
     this.handleOnChangeDepartTime = this.handleOnChangeDepartTime.bind(this);
     this.handleOnSwapStations = this.handleOnSwapStations.bind(this);
+    this.handleOnChangeFromStation = this.handleOnChangeFromStation.bind(this);
+    this.handleOnChangeToStation = this.handleOnChangeToStation.bind(this);
   }
 
   componentDidMount() {
     if (this.props.timetables.length === 0) {
-      console.log('fetchTimeTables');
+      // console.log('fetchTimeTables');
       this.props.fetchTimeTables();
     }
   }
 
-  handleOnChangeFromStation = (fromStation) => {
+  handleOnChangeFromStation(fromStation) {
     if (fromStation === null) {
       this.setState({ fromStation: null, result: null });
       return;
     }
-    const newState = { fromStation };
-    if (this.state.toStation !== null && this.state.toStation.line !== fromStation.line) {
-      newState.toStation = null;
+    let toStation = this.state.toStation;
+    if (toStation) {
+      if (toStation.conjunction === true) {
+        toStation = _cloneDeep(this.state.toStation);
+        const line = toStation.lines.find(e => e.line === fromStation.line);
+        Object.assign(toStation, line);
+      } else if (fromStation.conjunction === true) {
+        const line = fromStation.lines.find(e => e.line === toStation.line);
+        Object.assign(fromStation, line);
+      } else if (toStation.line !== fromStation.line) {
+        toStation = null;
+      }
+      this.setState({ fromStation, toStation }, () => this.searchUpcomingTrains());
+      return;
     }
-    this.setState(newState, () => this.searchUpcomingTrains());
+    this.setState({ fromStation });
   }
 
-  handleOnChangeToStation = (toStation) => {
+  handleOnChangeToStation(toStation) {
     if (toStation === null) {
       this.setState({ toStation: null, result: null });
       return;
     }
-    const newState = { toStation };
-    if (this.state.fromStation !== null && this.state.fromStation.line !== toStation.line) {
-      newState.fromStation = null;
+    let fromStation = this.state.fromStation;
+    if (toStation) {
+      if (fromStation.conjunction === true) {
+        fromStation = _cloneDeep(this.state.fromStation);
+        const line = fromStation.lines.find(e => e.line === toStation.line);
+        Object.assign(fromStation, line);
+      } else if (toStation.conjunction === true) {
+        const line = toStation.lines.find(e => e.line === fromStation.line);
+        Object.assign(toStation, line);
+      } else if (fromStation.line !== toStation.line) {
+        fromStation = null;
+      }
+      this.setState({ toStation, fromStation }, () => this.searchUpcomingTrains());
+      return;
     }
-    this.setState(newState, () => this.searchUpcomingTrains());
+    this.setState({ toStation });
   }
 
   handleOnSwapStations() {
@@ -97,12 +155,30 @@ class Home extends PureComponent {
       return null;
     }
     const { fromStation, toStation } = this.state;
+    const selectedLine = fromStation.line;
+    const stationsByLine = [];
+    stations.forEach((station) => {
+      if (station.conjunction === true) {
+        const { id, line, order } = station.lines.find(e => e.line === selectedLine);
+        stationsByLine.push({
+          id,
+          name: station.name,
+          lat: station.lat,
+          long: station.long,
+          line,
+          order,
+        });
+      } else if (station.line === selectedLine) {
+        stationsByLine.push(station);
+      }
+    });
+    // console.log(stationsByLine);
     return (
       <div>
         <ScheduleResult
           endStation={toStation.name}
           selectedStation={fromStation.name}
-          nextStations={getNextStations(stations, fromStation, toStation, 2)}
+          nextStations={getNextStations(stationsByLine, fromStation, toStation, 2)}
           result={this.state.result}
         />
       </div>
@@ -110,37 +186,23 @@ class Home extends PureComponent {
   }
 
   renderFromStationPicker() {
-    const toStation = this.state.toStation;
-    const list = toStation === null ? stations : _orderBy(stations, (e) => {
-      if (e.line === toStation.line) {
-        return -1;
-      }
-      return 1;
-    });
     return (
       <StationPicker
         selectedStation={this.state.fromStation}
         label="From station"
         nearby
-        stations={list}
+        stations={getListStationsForPicker(this.state.toStation)}
         onChange={this.handleOnChangeFromStation}
       />
     );
   }
 
   renderToStationPicker() {
-    const fromStation = this.state.fromStation;
-    const list = fromStation === null ? stations : _orderBy(stations, (e) => {
-      if (e.line === fromStation.line) {
-        return -1;
-      }
-      return 1;
-    });
     return (
       <StationPicker
         selectedStation={this.state.toStation}
         label="To station"
-        stations={list}
+        stations={getListStationsForPicker(this.state.fromStation)}
         onChange={this.handleOnChangeToStation}
       />
     );

@@ -11,7 +11,7 @@ const appReducer = combineReducers(Object.assign({},
   Persist,
 ));
 
-const initialState = appReducer({ appVersion: APP_VERSION, timetables: [] }, {});
+const initialState = appReducer({ appVersion: APP_VERSION, timetables: [], recentSearchs: [] }, {});
 
 const RootReducer = (state, action) => {
   if (action.type === 'persist/REHYDRATE' && _get(action, 'payload.appVersion', null) !== APP_VERSION) {

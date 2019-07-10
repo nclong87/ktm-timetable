@@ -95,6 +95,16 @@ class AppHeader extends PureComponent {
     this.setState({ open: false });
   };
 
+  renderNews() {
+    return null;
+    // return (
+    //   <div className="news">
+    //     <i className="fas fa-bullhorn" />
+    //     <span className="warning">Ramadan schedule updated 2019!!!</span>
+    //   </div>
+    // );
+  }
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
@@ -121,10 +131,7 @@ class AppHeader extends PureComponent {
           </AppBar>
           <Menu open={open} onClose={this.handleDrawerClose} />
         </div>
-        <div className="news">
-          <i className="fas fa-bullhorn" />
-          <span className="warning">Ramadan schedule updated 2019!!!</span>
-        </div>
+        {this.renderNews()}
       </div>
     );
   }

@@ -92,24 +92,57 @@ export const stations = [
     name: 'Putra',
     lat: 3.165296,
     long: 101.691008,
-    line: 1,
-    order: 12,
+    conjunction: true,
+    lines: [
+      {
+        id: 12,
+        line: 1,
+        order: 12,
+      },
+      {
+        id: 13,
+        line: 2,
+        order: 6,
+      },
+    ],
   },
   {
     id: 14,
     name: 'Bank Negara',
     lat: 3.154722,
     long: 101.693136,
-    line: 1,
-    order: 13,
+    conjunction: true,
+    lines: [
+      {
+        id: 14,
+        line: 1,
+        order: 13,
+      },
+      {
+        id: 15,
+        line: 2,
+        order: 7,
+      },
+    ],
   },
   {
     id: 16,
     name: 'KL Sentral',
     lat: 3.134108,
     long: 101.686634,
-    line: 1,
-    order: 14,
+    conjunction: true,
+    lines: [
+      {
+        id: 16,
+        line: 1,
+        order: 14,
+      },
+      {
+        id: 17,
+        line: 2,
+        order: 8,
+      },
+    ],
   },
   {
     id: 18,
@@ -303,30 +336,30 @@ export const stations = [
     line: 2,
     order: 5,
   },
-  {
-    id: 13,
-    name: 'Putra',
-    lat: 3.165296,
-    long: 101.691008,
-    line: 2,
-    order: 6,
-  },
-  {
-    id: 15,
-    name: 'Bank Negara',
-    lat: 3.154722,
-    long: 101.693136,
-    line: 2,
-    order: 7,
-  },
-  {
-    id: 17,
-    name: 'KL Sentral',
-    lat: 3.134108,
-    long: 101.686634,
-    line: 2,
-    order: 8,
-  },
+  // {
+  //   id: 13,
+  //   name: 'Putra',
+  //   lat: 3.165296,
+  //   long: 101.691008,
+  //   line: 2,
+  //   order: 6,
+  // },
+  // {
+  //   id: 15,
+  //   name: 'Bank Negara',
+  //   lat: 3.154722,
+  //   long: 101.693136,
+  //   line: 2,
+  //   order: 7,
+  // },
+  // {
+  //   id: 17,
+  //   name: 'KL Sentral',
+  //   lat: 3.134108,
+  //   long: 101.686634,
+  //   line: 2,
+  //   order: 8,
+  // },
   {
     id: 42,
     name: 'Mid Valley',
@@ -466,9 +499,16 @@ export const stations = [
 ];
 
 export function getLineName(lineNum) {
-  return lineNum === 1 ? 'Tg. Malim - Pel. Klang' : 'Batu Caves - Tampin';
+  switch (lineNum) {
+    case 1:
+      return 'Tg. Malim - Pel. Klang';
+    case 2:
+      return 'Batu Caves - Tampin';
+    default:
+      return '';
+  }
 }
 
-export function getTerminals(lineNum) {
-  return lineNum === 1 ? ['Tanjung Malim', 'Pelabuhan Klang'] : ['Batu Caves', 'Tampin'];
-}
+// export function getTerminals(lineNum) {
+//   return lineNum === 1 ? ['Tanjung Malim', 'Pelabuhan Klang'] : ['Batu Caves', 'Tampin'];
+// }

@@ -36,16 +36,22 @@ class Suggestions extends PureComponent {
       <div ref={this.setWrapperRef} className="suggestions">
         <div>
           <List component="nav">
-            {this.props.suggestions.map(e => (
-              <ListItem key={e.id} button onClick={() => this.props.onSelectStation(e)}>
-                <ListItemText>
-                  <span className="station-name">{e.name}</span>
-                </ListItemText>
-                <span className="line-name">
-                  <i className="fas fa-subway"></i>
-                  {`${getLineName(e.line)}`}</span>
-              </ListItem>
-            ))}
+            {this.props.suggestions.map((e) => {
+              const lineName = getLineName(e.line);
+              return (
+                <ListItem key={e.id} button onClick={() => this.props.onSelectStation(e)}>
+                  <ListItemText>
+                    <span className="station-name">{e.name}</span>
+                  </ListItemText>
+                  {lineName &&
+                    <span className="line-name">
+                      <i className="fas fa-subway"></i>
+                      {lineName}
+                    </span>
+                  }
+                </ListItem>
+              );
+            })}
           </List>
         </div>
       </div>
