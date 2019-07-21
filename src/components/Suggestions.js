@@ -39,7 +39,7 @@ class Suggestions extends PureComponent {
             {this.props.suggestions.map((e) => {
               const lineName = getLineName(e.line);
               return (
-                <ListItem key={e.id} button onClick={() => this.props.onSelectStation(e)}>
+                <ListItem key={`${e.line}-${e.id}`} button onClick={() => this.props.onSelectStation(e)}>
                   <ListItemText>
                     <span className="station-name">{e.name}</span>
                   </ListItemText>

@@ -19,6 +19,7 @@ import Menu from '../components/menu';
 // import ListItemText from '@material-ui/core/ListItemText';
 // import InboxIcon from '@material-ui/icons/MoveToInbox';
 // import MailIcon from '@material-ui/icons/Mail';
+import HeadLine from './HeadLine';
 
 const drawerWidth = 240;
 
@@ -95,16 +96,6 @@ class AppHeader extends PureComponent {
     this.setState({ open: false });
   };
 
-  renderNews() {
-    return null;
-    // return (
-    //   <div className="news">
-    //     <i className="fas fa-bullhorn" />
-    //     <span className="warning">Ramadan schedule updated 2019!!!</span>
-    //   </div>
-    // );
-  }
-
   render() {
     const { classes } = this.props;
     const { open } = this.state;
@@ -131,7 +122,7 @@ class AppHeader extends PureComponent {
           </AppBar>
           <Menu open={open} onClose={this.handleDrawerClose} />
         </div>
-        {this.renderNews()}
+        <HeadLine />
       </div>
     );
   }

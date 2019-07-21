@@ -24,7 +24,7 @@ export function get3UpcomingTimes(timetable, station, time = null) {
   const departTime = time === null ? moment.now() : moment(time);
   const array = [];
   for (const property in times) {
-    if (_.startsWith(property, 'value') && times.hasOwnProperty(property)) {
+    if (_.startsWith(property, '__') && times.hasOwnProperty(property)) {
         if (times[property]) {
             let m = moment(times[property], "HH:mm");
             if (m.isValid()) {

@@ -17,6 +17,7 @@ class StationPicker extends PureComponent {
       suggestions: [],
       isFetchingLocation: false,
     };
+    this.textInput = React.createRef();
   }
 
   componentWillReceiveProps(newProps) {
@@ -30,6 +31,11 @@ class StationPicker extends PureComponent {
     // console.log(keywords);
     const suggestions = trimedKeywors.length === 0 ? [] : this.props.stations.filter(e => searchByKeywords(e.name, trimedKeywors));
     this.setState({ keywords, suggestions }, () => this.props.onChange(null));
+  }
+
+  handleOnClickClear = () => {
+    this.handleOnChangeKeywords('');
+    this.textInput.current.focus();
   }
 
   handleOnGetNearbyStations = () => {
@@ -94,6 +100,7 @@ class StationPicker extends PureComponent {
     return (
       <div className="search-textfield">
         <TextField
+          inputRef={this.textInput}
           autoComplete="off"
           InputProps={{ classes: { input: this.props.classes.input } }}
           id="outlined-full-width"
@@ -109,7 +116,7 @@ class StationPicker extends PureComponent {
           }}
         />
         {this.state.keywords.length > 0 ?
-          <div title="Clear filter" role="button" tabIndex={0} className="icon" aria-label="Close" onClick={() => this.handleOnChangeKeywords('')}>
+          <div title="Clear filter" role="button" tabIndex={0} className="icon" aria-label="Close" onClick={() => this.handleOnClickClear('')}>
             <i className="fas fa-times"></i>
           </div>
           :

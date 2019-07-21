@@ -12,7 +12,7 @@ import { stations } from '../data/stations';
 import ScheduleResult from '../components/ScheduleResult';
 import './home.less';
 import { get3UpcomingTimes, getNextStations, formatDate } from '../utils/index';
-import { fetchTimeTables, addRecentSearch, onChangeAdvancedSearchState } from '../appActions';
+import { addRecentSearch, onChangeAdvancedSearchState } from '../appActions';
 import StationPicker from '../components/stationPicker';
 
 function getListStationsForPicker(toStation) {
@@ -62,13 +62,6 @@ class Home extends PureComponent {
     this.handleOnSwapStations = this.handleOnSwapStations.bind(this);
     this.handleOnChangeFromStation = this.handleOnChangeFromStation.bind(this);
     this.handleOnChangeToStation = this.handleOnChangeToStation.bind(this);
-  }
-
-  componentDidMount() {
-    if (this.props.timetables.length === 0) {
-      // console.log('fetchTimeTables');
-      this.props.fetchTimeTables();
-    }
   }
 
   handleOnChangeFromStation(fromStation) {
@@ -273,7 +266,6 @@ class Home extends PureComponent {
 Home.propTypes = {
   timetables: PropTypes.instanceOf(Array),
   recentSearchs: PropTypes.instanceOf(Array),
-  fetchTimeTables: PropTypes.func.isRequired,
   addRecentSearch: PropTypes.func.isRequired,
   onChangeAdvancedSearchState: PropTypes.func.isRequired,
   advancedSearchEnabled: PropTypes.bool,
@@ -287,14 +279,14 @@ Home.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    timetables: state.timetables,
-    recentSearchs: state.recentSearchs,
+    timetables: state.newtimetables,
+    recentSearchs: state.recentSearchsNew,
     advancedSearchEnabled: state.advancedSearchEnabled,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Object.assign({}, { fetchTimeTables, addRecentSearch, onChangeAdvancedSearchState }), dispatch);
+  return bindActionCreators(Object.assign({}, { addRecentSearch, onChangeAdvancedSearchState }), dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
