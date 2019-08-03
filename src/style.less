@@ -7,10 +7,21 @@ html {
   body {
     display: flex;
     margin: auto;
+    flex-direction: column;
+    like-dislike .like-dislike-alert{
+      font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+      font-weight: normal;
+    }
+    like-dislike a, .sil-widget-like-dislike a, .like-dislike-details {
 
+      background-color: transparent;
+      display: none;
+
+    }
     .app-container {
       display: flex;
       width: 100%;
+      flex: 1;
 
       .app-menu {
         font-size: 12px;
