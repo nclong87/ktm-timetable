@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const Dir = {
   src: path.join(__dirname, 'src'),
@@ -41,7 +41,7 @@ module.exports = {
     extensions: ['*', '.js', '.jsx'],
   },
   output: {
-    path: `${__dirname}/dist`,
+    path: `${__dirname}/www`,
     publicPath: '/',
     filename: 'bundle.js',
   },
@@ -50,9 +50,14 @@ module.exports = {
     new webpack.DefinePlugin({
       __LOCAL__: true,
     }),
+    new HtmlWebpackPlugin({
+      title: 'Komuter KTM Timetable and Schedule',
+      hash: true,
+      template: `${__dirname}/www/index.html`,
+    }),
   ],
   devServer: {
-    contentBase: './dist',
+    contentBase: './www',
     hot: true,
   },
 };

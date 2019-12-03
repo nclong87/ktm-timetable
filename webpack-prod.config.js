@@ -1,8 +1,10 @@
+/* eslint import/no-extraneous-dependencies: ["error", {"optionalDependencies": false}] */
 const webpack = require('webpack');
 // const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const Dir = {
   src: path.join(__dirname, 'src'),
@@ -43,7 +45,7 @@ module.exports = {
     extensions: ['*', '.js', '.jsx'],
   },
   output: {
-    path: `${__dirname}/dist`,
+    path: `${__dirname}/prod`,
     publicPath: '/',
     filename: 'bundle.js',
   },
@@ -66,5 +68,8 @@ module.exports = {
       hash: true,
       template: `${__dirname}/www/index.html`,
     }),
+    new CopyWebpackPlugin([
+      { from: 'www/static', to: 'static' },
+    ]),
   ],
 };
