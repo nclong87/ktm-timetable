@@ -23,8 +23,9 @@ export function get3UpcomingTimes(timetable, station, time = null) {
   // const now = moment.now();
   const departTime = time === null ? moment.now() : moment(time);
   const array = [];
-  for (const property in times) {
-    if (_.startsWith(property, '__') && times.hasOwnProperty(property)) {
+  for (const prop in times) {
+    const property = _.trim(prop);
+    if (!isNaN(property) && times.hasOwnProperty(property)) {
         if (times[property]) {
             let m = moment(times[property], "HH:mm");
             if (m.isValid()) {
@@ -32,6 +33,7 @@ export function get3UpcomingTimes(timetable, station, time = null) {
                 m.add(1, 'd');
               }
               array.push({
+                trainNo: Number(property),
                 time: times[property],
                 diff:  m.diff(departTime),
                 m,
@@ -40,11 +42,12 @@ export function get3UpcomingTimes(timetable, station, time = null) {
         }
     }
   }
-  const upcomingTimes = array.sort((a, b) => a.diff - b.diff).slice(0, 3).map(({ time, m}) => {
+  const upcomingTimes = array.sort((a, b) => a.diff - b.diff).slice(0, 3).map(({ time, m, trainNo}) => {
     // if (m.isBefore(now)) {
     //   m.add(1, 'd');
     // }
     return {
+      trainNo,
       time,
       m,
       // fromNow: m.isBefore(now) ? '' : `(${m.fromNow()})`,
@@ -86,7 +89,7 @@ export function getNextStations(stations, fromStation, toStation, num = 2) {
       break;
     }
     const station = stations[index];
-    if (station.id === toStation.id) {
+    if (station === undefined || station.id === toStation.id) {
       break;
     }
     result.push(station);

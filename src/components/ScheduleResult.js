@@ -48,6 +48,7 @@ class ScheduleResult extends PureComponent {
               <p className={`time item-${index}`}>
                 <i className="far fa-clock"></i>
                 {e.time} {e.m.isBefore(now) ? '' : `(${e.m.from(now)})`}
+                {(e.trainNo === 2602 || e.trainNo === 2603) && <span className="notes">(Ekspres)</span>}
               </p>
             </div>
           ))}

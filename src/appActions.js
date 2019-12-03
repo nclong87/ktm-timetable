@@ -12,11 +12,13 @@ export function fetchTimeTables() {
   return (dispatch) => {
     const api = new Api();
     return Promise.all([
-      api.get('https://raw.githubusercontent.com/ktmtimetable/ktmtimetable.github.io/master/data/line1.json'),
-      api.get('https://raw.githubusercontent.com/ktmtimetable/ktmtimetable.github.io/master/data/line2.json'),
-    ]).then(([t12, t22]) => {
-      const t11 = t12.splice(0, Math.round(t12.length / 2));
-      const t21 = t22.splice(0, Math.round(t22.length / 2));
+      api.get('https://raw.githubusercontent.com/ktmtimetable/ktmtimetable.github.io/master/data/line11.json'),
+      api.get('https://raw.githubusercontent.com/ktmtimetable/ktmtimetable.github.io/master/data/line12.json'),
+      api.get('https://raw.githubusercontent.com/ktmtimetable/ktmtimetable.github.io/master/data/line21.json'),
+      api.get('https://raw.githubusercontent.com/ktmtimetable/ktmtimetable.github.io/master/data/line22.json'),
+    ]).then(([t11, t12, t21, t22]) => {
+      // const t11 = t12.splice(0, Math.round(t12.length / 2));
+      // const t21 = t22.splice(0, Math.round(t22.length / 2));
       // console.log(t11, t12);
       // console.log(t21, t22);
       dispatch({

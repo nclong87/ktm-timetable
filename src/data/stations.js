@@ -88,6 +88,25 @@ export const stations = [
     order: 11,
   },
   {
+    id: 'Sentul',
+    name: 'Sentul',
+    lat: 3.182177,
+    long: 101.688693,
+    conjunction: true,
+    lines: [
+      {
+        id: 'Sentul',
+        line: 1,
+        order: 12,
+      },
+      {
+        id: 'Sentul',
+        line: 2,
+        order: 5,
+      },
+    ],
+  },
+  {
     id: 'Putra',
     name: 'Putra',
     lat: 3.165296,
@@ -97,7 +116,7 @@ export const stations = [
       {
         id: 'Putra',
         line: 1,
-        order: 12,
+        order: 13,
       },
       {
         id: 'Putra',
@@ -116,7 +135,7 @@ export const stations = [
       {
         id: 'Bank Negara',
         line: 1,
-        order: 13,
+        order: 14,
       },
       {
         id: 'Bank Negara',
@@ -135,7 +154,7 @@ export const stations = [
       {
         id: 'Kuala Lumpur',
         line: 1,
-        order: 14,
+        order: 15,
       },
       {
         id: 'Kuala Lumpur',
@@ -154,7 +173,7 @@ export const stations = [
       {
         id: 'KL Sentral',
         line: 1,
-        order: 14,
+        order: 15,
       },
       {
         id: 'KL Sentral',
@@ -169,7 +188,7 @@ export const stations = [
     lat: 3.118733,
     long: 101.673165,
     line: 1,
-    order: 15,
+    order: 16,
   },
   {
     id: 'Angkasapuri',
@@ -177,7 +196,7 @@ export const stations = [
     lat: 3.113278,
     long: 101.673281,
     line: 1,
-    order: 16,
+    order: 17,
   },
   {
     id: 'Pantai Dalam',
@@ -185,7 +204,7 @@ export const stations = [
     lat: 3.095637,
     long: 101.670041,
     line: 1,
-    order: 17,
+    order: 18,
   },
   {
     id: 'Petaling',
@@ -193,7 +212,7 @@ export const stations = [
     lat: 3.086168,
     long: 101.664176,
     line: 1,
-    order: 18,
+    order: 19,
   },
   {
     id: 'Jalan Templer',
@@ -201,7 +220,7 @@ export const stations = [
     lat: 3.083468,
     long: 101.656495,
     line: 1,
-    order: 19,
+    order: 20,
   },
   {
     id: 'Kg Dato Harun',
@@ -209,7 +228,7 @@ export const stations = [
     lat: 3.084457,
     long: 101.632283,
     line: 1,
-    order: 20,
+    order: 21,
   },
   {
     id: 'Seri Setia',
@@ -217,7 +236,7 @@ export const stations = [
     lat: 3.084521,
     long: 101.621902,
     line: 1,
-    order: 21,
+    order: 22,
   },
   {
     id: 'Setia Jaya',
@@ -225,7 +244,7 @@ export const stations = [
     lat: 3.083141,
     long: 101.611427,
     line: 1,
-    order: 22,
+    order: 23,
   },
   {
     id: 'Subang Jaya',
@@ -233,7 +252,7 @@ export const stations = [
     lat: 3.084598,
     long: 101.587392,
     line: 1,
-    order: 23,
+    order: 24,
   },
   {
     id: 'Batu Tiga',
@@ -241,7 +260,7 @@ export const stations = [
     lat: 3.075934,
     long: 101.559731,
     line: 1,
-    order: 24,
+    order: 25,
   },
   {
     id: 'Shah Alam',
@@ -249,7 +268,7 @@ export const stations = [
     lat: 3.056501,
     long: 101.525085,
     line: 1,
-    order: 25,
+    order: 26,
   },
   {
     id: 'Padang Jawa',
@@ -257,7 +276,7 @@ export const stations = [
     lat: 3.052341,
     long: 101.492708,
     line: 1,
-    order: 26,
+    order: 27,
   },
   {
     id: 'Bukit Badak',
@@ -265,7 +284,7 @@ export const stations = [
     lat: 3.036166,
     long: 101.470246,
     line: 1,
-    order: 27,
+    order: 28,
   },
   {
     id: 'Klang',
@@ -273,7 +292,7 @@ export const stations = [
     lat: 3.043123,
     long: 101.449615,
     line: 1,
-    order: 28,
+    order: 29,
   },
   {
     id: 'Teluk Pulai',
@@ -281,7 +300,7 @@ export const stations = [
     lat: 3.040854,
     long: 101.432097,
     line: 1,
-    order: 29,
+    order: 30,
   },
   {
     id: 'Teluk Gadong',
@@ -289,7 +308,7 @@ export const stations = [
     lat: 3.033890,
     long: 101.424901,
     line: 1,
-    order: 30,
+    order: 31,
   },
   {
     id: 'Kg Raja Uda',
@@ -297,7 +316,7 @@ export const stations = [
     lat: 3.020121,
     long: 101.410210,
     line: 1,
-    order: 31,
+    order: 32,
   },
   {
     id: 'Jalan Kastam',
@@ -305,7 +324,7 @@ export const stations = [
     lat: 3.013022,
     long: 101.402591,
     line: 1,
-    order: 32,
+    order: 33,
   },
   {
     id: 'Pelabuhan Klang',
@@ -313,7 +332,7 @@ export const stations = [
     lat: 2.999516,
     long: 101.391449,
     line: 1,
-    order: 33,
+    order: 34,
   },
   {
     id: 'Batu Caves',
@@ -346,14 +365,6 @@ export const stations = [
     long: 101.681217,
     line: 2,
     order: 4,
-  },
-  {
-    id: 'Sentul',
-    name: 'Sentul',
-    lat: 3.182177,
-    long: 101.688693,
-    line: 2,
-    order: 5,
   },
   {
     id: 'MidValley',
