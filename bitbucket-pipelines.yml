@@ -1,34 +1,60 @@
 
 pipelines:
-  default:
-    - step:
-        name: Build and test
-        deployment: staging
-        image: node:10.16.0
-        caches:
-          - node
-        script: # Modify the commands below to build your repository.
-          - rm -rvf node_modules
-          - npm install
-          - mkdir staging
-          - cd staging
-          - git init
-          - git remote add origin https://ktmtimetable:4e1effb21ce72e66c7ce54c0935ff1cbf1f8eb73@github.com/nclong87/ktmtimetable-staging.git
-          - git fetch
-          - git pull origin gh-pages
-          - ls
-          - cd ..
-          - npm run build-staging
-          - git status
-        artifacts:
-          - staging/**
-    - step:
-        name: Deploy to Github Pages
-        script:
-          - cd staging
-          - git status
-          - git add .
-          - git config --global user.email "ktmtimetable@gmail.com"
-          - git config --global user.name "KTM Timetable"
-          - git commit -m "Publish"
-          - git push origin gh-pages
+  branches:
+    staging:
+      - step:
+          name: Build and test
+          deployment: staging
+          image: node:10.16.0
+          caches:
+            - node
+          script: # Modify the commands below to build your repository.
+            - rm -rvf node_modules
+            - npm install
+            - mkdir staging
+            - cd staging
+            - git init
+            - git remote add origin $GITHUB_URL
+            - git fetch
+            - git pull origin gh-pages
+            - ls
+            - cd ..
+            - npm run build-staging
+            cd staging
+            - git status
+          artifacts:
+            - staging/**
+    master:
+      - step:
+          name: Build and test
+          deployment: production
+          image: node:10.16.0
+          caches:
+            - node
+          script: # Modify the commands below to build your repository.
+            - rm -rvf node_modules
+            - npm install
+            - mkdir prod
+            - cd prod
+            - git init
+            - git remote add origin $GITHUB_URL
+            - git fetch
+            - git pull origin gh-pages
+            - ls
+            - cd ..
+            - npm run build-prod
+            - cd prod
+            - git status
+          artifacts:
+            - prod/**
+    default:
+      - step:
+          name: Deploy to Github Pages
+          script:
+            - git checkout gh-pages
+            - git add .
+            - git status
+            - git config --global user.email "ktmtimetable@gmail.com"
+            - git config --global user.name "KTM Timetable"
+            - git commit -m "Publish"
+            - git push origin gh-pages
