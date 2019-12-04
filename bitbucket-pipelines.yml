@@ -24,6 +24,16 @@ pipelines:
             - git status
           artifacts:
             - staging/**
+      - step:
+          name: Deploy to Github Pages
+          script:
+            - git checkout gh-pages
+            - git add .
+            - git status
+            - git config --global user.email "ktmtimetable@gmail.com"
+            - git config --global user.name "KTM Timetable"
+            - git commit -m "Publish"
+            - git push origin gh-pages
     master:
       - step:
           name: Build in Production
@@ -47,7 +57,6 @@ pipelines:
             - git status
           artifacts:
             - prod/**
-    '{master,staging}':
       - step:
           name: Deploy to Github Pages
           script:
