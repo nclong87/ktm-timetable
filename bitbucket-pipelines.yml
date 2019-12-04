@@ -20,13 +20,12 @@ pipelines:
             - ls
             - cd ..
             - npm run build-staging
-            - cd staging
-            - git status
           artifacts:
             - staging/**
       - step:
           name: Deploy to Github Pages
           script:
+            - cd staging
             - git checkout gh-pages
             - git add .
             - git status
@@ -53,13 +52,12 @@ pipelines:
             - ls
             - cd ..
             - npm run build-prod
-            - cd prod
-            - git status
           artifacts:
             - prod/**
       - step:
           name: Deploy to Github Pages
           script:
+            - cd prod
             - git checkout gh-pages
             - git add .
             - git status
