@@ -3,6 +3,7 @@ pipelines:
   default:
     - step:
         name: Build and test
+        deployment: staging
         image: node:10.16.0
         caches:
           - node
@@ -14,12 +15,10 @@ pipelines:
           - staging/**
     - step:
         name: Deploy to Github Pages
+        deployment: staging
         image: node:10.16.0
         caches:
           - node
-          - docker
-        dependencies:
-          - staging
         script:
           - git config --global user.name "ktmtimetable@gmail.com"
           - git config --global user.password "WyViU5M6NLneqTUg"
