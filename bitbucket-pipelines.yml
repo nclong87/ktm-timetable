@@ -19,12 +19,14 @@ pipelines:
           - ls
           - cd ..
           - npm run build-staging
+          - git status
         artifacts:
           - staging/**
     - step:
         name: Deploy to Github Pages
         script:
           - cd staging
+          - git status
           - git add .
           - git config --global user.email "ktmtimetable@gmail.com"
           - git config --global user.name "KTM Timetable"
