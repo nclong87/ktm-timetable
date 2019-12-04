@@ -10,7 +10,7 @@
     "lint": "eslint src --ext .jsx,.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "predeploy": "npm run build",
-    "deploy-staging": "gh-pages -u ktmtimetable@gmail.com -d staging -r https://github.com/nclong87/ktmtimetable-staging",
+    "deploy-staging": "gh-pages -d staging -r https://github.com/nclong87/ktmtimetable-staging",
     "deploy-prod": "npm run build && echo ktmtimetable.com > prod/CNAME && gh-pages -d prod -r https://github.com/nclong87/ktmtimetable"
   },
   "repository": {
