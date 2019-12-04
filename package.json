@@ -9,7 +9,8 @@
     "lint": "eslint src --ext .jsx,.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d prod"
+    "deploy-staging": "npm run build && gh-pages -d prod -r https://github.com/nclong87/ktmtimetable-staging",
+    "deploy-prod": "npm run build && gh-pages -d prod -r https://github.com/nclong87/ktmtimetable"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,7 @@
   },
   "author": "Long Vu",
   "license": "ISC",
-  "homepage": "http://nclong87.github.io/ktm-timetable",
+  "homepage": "https://ktmtimetable.com/",
   "dependencies": {
     "@date-io/date-fns": "^1.3.5",
     "@material-ui/core": "^3.9.3",
