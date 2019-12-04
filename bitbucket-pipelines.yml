@@ -19,6 +19,5 @@ pipelines:
         caches:
           - node
         script:
-          - git config --global user.name "ktmtimetable@gmail.com"
-          - git config --global user.password "WyViU5M6NLneqTUg"
+          - git remote set-url https://ktmtimetable:WyViU5M6NLneqTUg@github.com/nclong87/ktmtimetable-staging.git
           - npm run deploy-staging
