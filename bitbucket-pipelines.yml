@@ -10,14 +10,19 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - rm -rvf node_modules
           - npm install
+          - mkdir staging
+          - cd staging
+          - git init
+          - git remote add origin https://ktmtimetable:4e1effb21ce72e66c7ce54c0935ff1cbf1f8eb73@github.com/nclong87/ktmtimetable-staging.git
+          - git fetch
+          - git pull origin gh-pages
+          - ls
+          - cd ..
           - npm run build-staging
         artifacts:
           - staging/**
     - step:
         name: Deploy to Github Pages
-        image: node:10.16.0
-        caches:
-          - node
         script:
-          - git remote set-url origin https://ktmtimetable:WyViU5M6NLneqTUg@github.com/nclong87/ktmtimetable-staging.git
-          - npm run deploy-staging
+          - cd staging
+          - ls
