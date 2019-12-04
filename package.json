@@ -6,11 +6,11 @@
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.js --mode development",
     "build": "webpack --config ./webpack-prod.config.js --mode production",
-    "build-staging": "webpack --config ./webpack-staging.config.js --mode production",
+    "build-staging": "webpack --config ./webpack-staging.config.js --mode production && echo staging.ktmtimetable.com > staging/CNAME",
     "lint": "eslint src --ext .jsx,.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "predeploy": "npm run build",
-    "deploy-staging": "npm run build-staging && echo staging.ktmtimetable.com > staging/CNAME && gh-pages -d staging -r https://github.com/nclong87/ktmtimetable-staging",
+    "deploy-staging": "gh-pages -d staging -r https://github.com/nclong87/ktmtimetable-staging",
     "deploy-prod": "npm run build && echo ktmtimetable.com > prod/CNAME && gh-pages -d prod -r https://github.com/nclong87/ktmtimetable"
   },
   "repository": {
