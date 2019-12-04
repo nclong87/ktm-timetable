@@ -20,7 +20,7 @@ pipelines:
             - ls
             - cd ..
             - npm run build-staging
-            cd staging
+            - cd staging
             - git status
           artifacts:
             - staging/**
