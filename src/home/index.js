@@ -236,7 +236,6 @@ class Home extends PureComponent {
   render() {
     return (
       <div className="home">
-        aa
         <div className="search">
           <div style={{ display: 'none' }}>
             <TimePicker
