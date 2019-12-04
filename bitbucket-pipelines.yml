@@ -1,0 +1,17 @@
+
+pipelines:
+  default:
+    - step:
+        name: Build and test
+        image: node:10.16.0
+        caches:
+          - node
+        script: # Modify the commands below to build your repository.
+          - rm -rvf node_modules
+          - npm install
+          - npm run build-prod
+    - step:
+        name: Deploy to Github Pages
+        image: node:10.16.0
+        script:
+          - npm run deploy-staging
