@@ -26,5 +26,7 @@ pipelines:
         script:
           - cd staging
           - git add .
+          - git config --global user.email "ktmtimetable@gmail.com"
+          - git config --global user.name "KTM Timetable"
           - git commit -m "Publish"
           - git push origin gh-pages
