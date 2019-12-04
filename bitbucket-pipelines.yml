@@ -15,7 +15,6 @@ pipelines:
           - staging/**
     - step:
         name: Deploy to Github Pages
-        deployment: staging
         image: node:10.16.0
         caches:
           - node
