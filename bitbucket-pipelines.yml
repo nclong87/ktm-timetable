@@ -19,5 +19,5 @@ pipelines:
         caches:
           - node
         script:
-          - git remote set-url https://ktmtimetable:WyViU5M6NLneqTUg@github.com/nclong87/ktmtimetable-staging.git
+          - git remote set-url origin https://ktmtimetable:WyViU5M6NLneqTUg@github.com/nclong87/ktmtimetable-staging.git
           - npm run deploy-staging
