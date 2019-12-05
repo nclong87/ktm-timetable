@@ -31,7 +31,7 @@ pipelines:
             - git status
             - git config --global user.email "ktmtimetable@gmail.com"
             - git config --global user.name "KTM Timetable"
-            - git commit -m "Publish"
+            - git commit -m "Publish build `#$BITBUCKET_BUILD_NUMBER"
             - git push origin gh-pages
     master:
       - step:
@@ -63,5 +63,7 @@ pipelines:
             - git status
             - git config --global user.email "ktmtimetable@gmail.com"
             - git config --global user.name "KTM Timetable"
-            - git commit -m "Publish"
+            - git commit -m "Publish build `#$BITBUCKET_BUILD_NUMBER"
+            - git tag $BITBUCKET_BUILD_NUMBER
+            - git push origin $BITBUCKET_BUILD_NUMBER
             - git push origin gh-pages
