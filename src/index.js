@@ -1,5 +1,5 @@
 /* global __LOCAL__:true */
-import 'babel-polyfill'; // fixing es6 issue in IE11
+import '@babel/polyfill'; // fixing es6 issue in IE11
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
