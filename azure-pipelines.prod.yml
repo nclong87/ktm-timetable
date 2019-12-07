@@ -1,0 +1,8 @@
+trigger:
+  - master
+
+variables:
+  - group: Production
+
+stages:
+  - template: azure-pipelines.template.yml

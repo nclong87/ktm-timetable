@@ -1,0 +1,8 @@
+trigger:
+  - staging
+
+variables:
+  - group: Staging
+
+stages:
+  - template: azure-pipelines.template.yml
