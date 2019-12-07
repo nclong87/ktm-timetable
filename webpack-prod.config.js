@@ -51,7 +51,7 @@ module.exports = {
     filename: 'bundle.js',
   },
   plugins: [
-    new CleanWebpackPlugin([Dir.build]),
+    new CleanWebpackPlugin(),
     // new ExtractTextPlugin('style.css'),
     // Minify JS
     new UglifyJSPlugin({
