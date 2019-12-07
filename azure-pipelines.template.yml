@@ -1,5 +1,14 @@
 steps:
+- task: UseNode@1
+  inputs:
+    version: '10.16.0'
+  displayName: 'Install Node.js'
 - script: |
-    echo "Environment"
-    echo $(env)
+    npm install
   displayName: 'Pre build'
+- script: |
+    npm run build
+    ls $(System.DefaultWorkingDirectory)
+  displayName: 'Build'
+- publish: $(System.DefaultWorkingDirectory)/build
+  artifact: build
