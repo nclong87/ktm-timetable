@@ -2,7 +2,5 @@ trigger:
   - master
 pool:
   vmImage: 'ubuntu-16.04'
-variables:
-  - group: Production
-stages:
+steps:
   - template: azure-pipelines.template.yml
