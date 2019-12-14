@@ -25,6 +25,22 @@ class ScheduleResult extends PureComponent {
     window.clearInterval(this.timer);
   }
 
+  getValue() {
+        var retVal = prompt("Enter your email : ", "");
+        return retVal;
+  }
+
+  getConfirmation() {
+        var retVal = confirm("Support us with RM0.99 and unlock this feature!");
+        if( retVal == true ) {
+            let email = this.getValue();
+            alert("We'll send instruction to your email " + email + ". Thank you!");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
   render() {
     if (this.props.result === null) {
       return null;
@@ -50,6 +66,9 @@ class ScheduleResult extends PureComponent {
                 {e.time} {e.m.isBefore(now) ? '' : `(${e.m.from(now)})`}
                 {(e.trainNo === 2602 || e.trainNo === 2603) && <span className="notes">(Ekspres)</span>}
               </p>
+                    <div className="alert">
+                    <button onClick={() => this.getConfirmation()}>Set Alert</button>
+                </div>
             </div>
           ))}
         </div>
