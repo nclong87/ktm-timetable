@@ -1,6 +1,6 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"optionalDependencies": false}] */
 const webpack = require('webpack');
-// const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -8,6 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const Dir = {
   src: path.join(__dirname, 'src'),
+  build: path.join(__dirname, 'build'),
 };
 
 module.exports = {
@@ -45,12 +46,12 @@ module.exports = {
     extensions: ['*', '.js', '.jsx'],
   },
   output: {
-    path: `${__dirname}/prod`,
+    path: Dir.build,
     publicPath: '/',
     filename: 'bundle.js',
   },
   plugins: [
-    // new CleanWebpackPlugin([Dir.build]),
+    new CleanWebpackPlugin(),
     // new ExtractTextPlugin('style.css'),
     // Minify JS
     new UglifyJSPlugin({

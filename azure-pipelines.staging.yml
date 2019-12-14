@@ -1,0 +1,6 @@
+trigger:
+  - staging
+pool:
+  vmImage: 'ubuntu-16.04'
+steps:
+  - template: azure-pipelines.template.yml
