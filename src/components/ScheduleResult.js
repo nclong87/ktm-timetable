@@ -34,7 +34,13 @@ class ScheduleResult extends PureComponent {
         var retVal = confirm("Support us with RM0.99 and unlock this feature!");
         if( retVal == true ) {
             let email = this.getValue();
-            alert("We'll send instruction to your email " + email + ". Thank you!");
+            if (email) {
+                alert("We'll send alerts to your email " + email + ". Thank you!");
+                let event = {'event_label': 'email', 'value': email};
+                gtag('event', 'alert', event);
+            } else {
+                return false;
+            }
             return true;
         } else {
             return false;
