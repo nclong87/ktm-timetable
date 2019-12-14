@@ -45,7 +45,7 @@ class ScheduleResult extends PureComponent {
     if (retVal === true) {
       const email = this.getValue();
       if (email) {
-        alert(t('We\'ll send alerts to your email {{email}}. Thank you!'), { email });
+        alert(t('We\'ll send alerts to your email {{email}}. Thank you!', { email }));
       }
       gtag('event', 'confirm', {
         event_category: eventCategory,
