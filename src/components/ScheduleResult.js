@@ -36,7 +36,7 @@ class ScheduleResult extends PureComponent {
             let email = this.getValue();
             if (email) {
                 alert("We'll send alerts to your email " + email + ". Thank you!");
-                let event = {'event_label': 'email', 'value': email};
+                let event = {'event_label': email};
                 gtag('event', 'alert', event);
             } else {
                 return false;
