@@ -9,6 +9,7 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import configureStore from './appStore';
 import AppRouter from './appRouter';
+import './i18n/i18n';
 import './style.less';
 
 const theme = createMuiTheme({
@@ -18,7 +19,7 @@ const theme = createMuiTheme({
   fontFamily: 'helvetica neue, helvetica',
   palette: {
     primary: {
-      main: '#36425A',
+      main: '#1A97CB',
     },
   },
 });
