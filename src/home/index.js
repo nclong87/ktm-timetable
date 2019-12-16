@@ -8,12 +8,14 @@ import IconButton from '@material-ui/core/IconButton';
 import _orderBy from 'lodash/orderBy';
 import _cloneDeep from 'lodash/cloneDeep';
 // import Button from '@material-ui/core/Button';
-import { stations } from '../data/stations';
+import { getStations } from '../data/stations';
 import ScheduleResult from '../components/ScheduleResult';
 import './home.less';
 import { get3UpcomingTimes, getNextStations, formatDate } from '../utils/index';
 import { addRecentSearch, onChangeAdvancedSearchState } from '../appActions';
 import StationPicker from '../components/stationPicker';
+
+const stations = getStations();
 
 function getListStationsForPicker(toStation) {
   let list = null;
