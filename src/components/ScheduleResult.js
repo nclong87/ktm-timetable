@@ -41,7 +41,7 @@ class ScheduleResult extends PureComponent {
     gtag('event', 'click', {
       event_category: eventCategory,
     });
-    const retVal = confirm(t('Support us with RM0.99 and unlock this feature!'));
+    const retVal = confirm(t('Support us with RM 1 and unlock this feature!'));
     if (retVal === true) {
       const email = this.getValue();
       if (email) {
