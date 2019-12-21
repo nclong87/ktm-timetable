@@ -53,7 +53,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Komuter KTM Timetable and Schedule',
       hash: true,
-      template: `${__dirname}/www/index.html`,
+      template: `${__dirname}/www/local.index.html`,
     }),
   ],
   devServer: {

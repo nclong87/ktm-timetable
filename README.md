@@ -22,7 +22,6 @@ tar -xf /tmp/ktm.tar.bz2 -C /var/www/html/
 https://www.zamzar.com/convert/pdf-to-csv/ (free)
 -> Open with Numbers
 -> Copy to Google Sheet
--> Add Header (id, __0, __1,...)
 -> Export to CSV
 https://www.csvjson.com/csv2json
 

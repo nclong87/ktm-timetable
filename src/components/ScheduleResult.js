@@ -5,6 +5,7 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import { withTranslation } from 'react-i18next';
+import { isEkspresTrain } from '../data/stations';
 
 const moment = require('moment');
 
@@ -82,9 +83,9 @@ class ScheduleResult extends PureComponent {
               <p className={`time item-${index}`}>
                 <i className="far fa-clock"></i>
                 {e.time} {e.m.isBefore(now) ? '' : `(${e.m.from(now)})`}
-                {(e.trainNo === 2602 || e.trainNo === 2603) && <span className="notes">(Ekspres)</span>}
+                {isEkspresTrain(e.trainNo) && <span className="notes">(Ekspres)</span>}
               </p>
-              <div role="button" tabIndex={0} className="button" onClick={this.handleClickGetConfirmation}>
+              <div style={{ color: 'chartreuse' }} role="button" tabIndex={0} className="button" onClick={this.handleClickGetConfirmation}>
                 <i className="fas fa-bell" aria-hidden="true"></i>
                 <span>
                   {t('Set Alert')}
