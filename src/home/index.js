@@ -120,6 +120,7 @@ class Home extends PureComponent {
   }
 
   handleOnSelectRecentSearch = ({ fromStation, toStation }) => {
+    this.firstElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
     this.setState({ fromStation, toStation }, () => this.searchUpcomingTrains());
   }
 
@@ -254,6 +255,11 @@ class Home extends PureComponent {
         <div className="favorite-stations">
           <div className="stations">
             <div>
+              <div
+                ref={(el) => {
+                  this.firstElement = el;
+                }}
+              />
               {this.props.recentSearchs.map((e, index) => <span key={index} button="true" onClick={() => this.handleOnSelectRecentSearch(e)}>{`${e.fromStation.name} - ${e.toStation.name}`}</span>)}
             </div>
           </div>

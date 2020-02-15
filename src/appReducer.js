@@ -61,8 +61,12 @@ export const recentSearchsNew = createReducer([], {
   [ADD_RECENT_SEARCH](state, action) {
     const { fromStation, toStation } = action.data;
     const index = state.findIndex(e => e.fromStation.id === fromStation.id && e.toStation.id === toStation.id);
+    let newState;
     if (index >= 0) {
-      return state;
+      newState = state.slice();
+      newState.splice(index, 1);
+    } else {
+      newState = state.slice(0, 10);
     }
     // else if (index > 0) {
     //   const newState = state.slice();
@@ -70,7 +74,6 @@ export const recentSearchsNew = createReducer([], {
     //   newState.unshift(station);
     //   return newState;
     // }
-    const newState = state.slice(0, 10);
     newState.unshift(action.data);
     return newState;
   },
