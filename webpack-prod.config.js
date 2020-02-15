@@ -2,16 +2,16 @@
 const webpack = require('webpack');
 // const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const path = require('path');
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
-// const Dir = {
-//   src: path.join(__dirname, 'src'),
-// };
-
+const Dir = {
+  src: path.join(__dirname, 'src'),
+  build: path.join(__dirname, 'build'),
+};
 module.exports = {
   mode: 'production',
   entry: [
@@ -61,7 +61,7 @@ module.exports = {
     extensions: ['*', '.js', '.jsx'],
   },
   output: {
-    path: `${__dirname}/staging`,
+    path: Dir.build,
     filename: '[name].[contenthash].bundle.js',
     chunkFilename: '[name].[contenthash].bundle.js',
     libraryTarget: 'umd',
