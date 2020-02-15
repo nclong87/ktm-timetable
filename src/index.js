@@ -11,6 +11,7 @@ import configureStore from './appStore';
 import AppRouter from './appRouter';
 import './i18n/i18n';
 import './style.less';
+import { MAIN_COLOR } from './styles/colors';
 
 const theme = createMuiTheme({
   typography: {
@@ -19,7 +20,7 @@ const theme = createMuiTheme({
   fontFamily: 'helvetica neue, helvetica',
   palette: {
     primary: {
-      main: '#1A97CB',
+      main: MAIN_COLOR,
     },
   },
 });

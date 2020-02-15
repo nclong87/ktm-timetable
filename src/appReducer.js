@@ -1,9 +1,43 @@
 import createReducer from './utils/createReducer';
 import { SET_TIMETABLES, ADD_RECENT_SEARCH, CHANGE_ADVANCED_SEARCH_STATE, SET_METADATA } from './appActions';
 
+// export const newtimetables = createReducer([], {
+//   [SET_TIMETABLES](state, action) {
+//     return action.data;
+//   },
+// });
+
+function convertTimetable(timetable) {
+  const result = {};
+  timetable.forEach((row) => {
+    const stationId = row.id;
+    Object.keys(row).forEach((trainId) => {
+      if (trainId === 'id') {
+        return;
+      }
+      if (!Object.prototype.hasOwnProperty.call(result, trainId)) {
+        result[trainId] = {
+          trainId,
+          times: {},
+        };
+      }
+      result[trainId].times[stationId] = row[trainId].length >= 5 ? row[trainId] : `0${row[trainId]}`;
+    });
+  });
+  return Object.values(result);
+}
+
 export const newtimetables = createReducer([], {
   [SET_TIMETABLES](state, action) {
-    return action.data;
+    const newState = [];
+    action.data.forEach((line) => {
+      newState.push({
+        lineNum: line.lineNum,
+        timetable1: convertTimetable(line.timetable1),
+        timetable2: convertTimetable(line.timetable2),
+      });
+    });
+    return newState;
   },
 });
 

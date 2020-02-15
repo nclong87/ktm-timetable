@@ -18,42 +18,69 @@ export function formatDate(date, format = 'MM/DD/YYYY') {
   return moment(date).format(format);
 }
 
-export function get3UpcomingTimes(timetable, station, time = null) {
+// function myFunction() {
+//   var str1 = "16:12";
+//   var str2 = "16:12";
+//   var n = str1.localeCompare(str2);
+//   document.getElementById("demo").innerHTML = n;
+// }
+
+export function getUpcomingTimes(timetable, station, toStation, time = null) {
   const times = timetable.find(e => e.id === station.id);
+  console.log('toStation', toStation);
   // const now = moment.now();
-  const departTime = time === null ? moment.now() : moment(time);
-  const array = [];
-  for (const prop in times) {
-    const property = _.trim(prop);
-    if (!isNaN(property) && times.hasOwnProperty(property)) {
-        if (times[property]) {
-            let m = moment(times[property], "HH:mm");
-            if (m.isValid()) {
-              if (m.isBefore(departTime)) {
-                m.add(1, 'd');
-              }
-              array.push({
-                trainNo: Number(property),
-                time: times[property],
-                diff:  m.diff(departTime),
-                m,
-              });
-            }
-        }
-    }
+  let departTime;
+  if (!time) {
+    departTime = moment().format('HH:mm');
+  } else {
+    departTime = moment(time).format('HH:mm');
   }
-  const upcomingTimes = array.sort((a, b) => a.diff - b.diff).slice(0, 3).map(({ time, m, trainNo}) => {
-    // if (m.isBefore(now)) {
-    //   m.add(1, 'd');
-    // }
-    return {
-      trainNo,
-      time,
-      m,
-      // fromNow: m.isBefore(now) ? '' : `(${m.fromNow()})`,
+  const trains = [];
+  timetable.forEach(t => {
+    if (t.times[station.id] === '' || t.times[toStation.id] === '') {
+      return;
     }
+    if (departTime.localeCompare(t.times[station.id]) === 1) {
+      return;
+    }
+    trains.push(Object.assign({}, t, { departTime: t.times[station.id] }));
   })
-  return upcomingTimes;
+  trains.sort((a, b) => a.departTime.localeCompare(b.departTime));
+  // console.log('trains', trains);
+  return trains;
+  // const departTime = time === null ? moment.now() : moment(time);
+  // const array = [];
+  // for (const prop in times) {
+  //   const property = _.trim(prop);
+  //   if (!isNaN(property) && times.hasOwnProperty(property)) {
+  //       if (times[property]) {
+  //           let m = moment(times[property], "HH:mm");
+  //           if (m.isValid()) {
+  //             if (m.isBefore(departTime)) {
+  //               m.add(1, 'd');
+  //             }
+  //             array.push({
+  //               trainNo: Number(property),
+  //               time: times[property],
+  //               diff:  m.diff(departTime),
+  //               m,
+  //             });
+  //           }
+  //       }
+  //   }
+  // }
+  // const upcomingTimes = array.sort((a, b) => a.diff - b.diff).slice(0, 3).map(({ time, m, trainNo}) => {
+  //   // if (m.isBefore(now)) {
+  //   //   m.add(1, 'd');
+  //   // }
+  //   return {
+  //     trainNo,
+  //     time,
+  //     m,
+  //     // fromNow: m.isBefore(now) ? '' : `(${m.fromNow()})`,
+  //   }
+  // })
+  // return upcomingTimes;
 }
 
 export function searchByKeywords(string, keywords) {

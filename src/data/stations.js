@@ -387,5 +387,5 @@ export function getLineName(lineNum) {
 }
 
 export function isEkspresTrain(trainNo) {
-  return trainNo === 2602 || trainNo === 2603;
+  return trainNo === '2602' || trainNo === '2603';
 }

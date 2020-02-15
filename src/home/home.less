@@ -1,3 +1,4 @@
+@import '../styles/variables';
 .home {
   max-width: 800px;
   margin: auto;
@@ -24,7 +25,7 @@
         top: -18px;
         i {
           font-size: 20px;
-          color: #1A97CB;
+          color: @main_color;
         }
 
       }
@@ -136,7 +137,7 @@
         cursor: pointer;
         line-height: 22px;
         font-size: 13px;
-        background-color: #1A97CB;
+        background-color: @main_color;
         padding: 5px;
         border-radius: 15px;
         padding-left: 10px;
@@ -157,76 +158,6 @@
     }
   }
 
-  .schedule-result {
-    margin-bottom: 20px;
-
-    .steps {
-      padding-left: 0;
-      padding-bottom: 0;
-      padding-right: 0;
-
-      .fa-subway {
-        font-size: 30px;
-      }
-
-      > div {
-        &:last-child {
-
-          > div {
-            &:first-child {
-              > span {
-                border-top-style: dashed;
-                border-top-width: 1px;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    .station-name {
-    }
-
-    .times {
-      display: flex;
-      flex-direction: column;
-      align-items: left;
-      padding-top: 15px;
-
-      > div {
-      }
-    }
-
-    .time {
-      position: relative;
-      padding-left: 20px;
-      text-align: left;
-      display: inline-flex;
-      align-self: center;
-      margin-top: 20px;
-      font-style: italic;
-      min-width: 150px;
-      font-size: 0.9em;
-      margin-right: 10px;
-
-      span.notes {
-        margin-left: 10px;
-      }
-
-      &.item-0 {
-        color: orange;
-      }
-
-      &.item-1 {
-        color: green;
-      }
-      i {
-        position: absolute;
-        left: 0;
-        font-size: 16px;
-      }
-    }
-  }
 }
 
 .contact {
