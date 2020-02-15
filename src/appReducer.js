@@ -21,7 +21,11 @@ function convertTimetable(timetable) {
           times: {},
         };
       }
-      result[trainId].times[stationId] = row[trainId].length >= 5 ? row[trainId] : `0${row[trainId]}`;
+      let time = row[trainId];
+      if (time !== '' && row[trainId].length < 5) {
+        time = `0${time}`;
+      }
+      result[trainId].times[stationId] = time;
     });
   });
   return Object.values(result);
