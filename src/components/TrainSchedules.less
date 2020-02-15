@@ -1,0 +1,70 @@
+@import '../styles/variables';
+.train-schedules {
+
+  .train-schedule {
+
+    margin-bottom: 50px;
+
+    .steps {
+      padding-left: 0;
+      padding-bottom: 0;
+      padding-right: 0;
+
+      .step-label {
+        font-weight: bold;
+        margin-top: 5px;
+
+        p {
+          text-align: center;
+          margin: 0;
+
+          &.time {
+          }
+
+          &.express {
+            color: green;
+          }
+
+          &.fromnow {
+            font-weight: normal;
+            font-style: italic;
+          }
+        }
+      }
+
+      .fas {
+        font-size: 30px;
+
+        &.fa-subway {
+          color: @main_color;
+        }
+
+        &.departure {
+          color: orange;
+        }
+
+        &.arrival {
+          color: red;
+        }
+      }
+
+      > div {
+        &:last-child {
+
+          > div {
+            &:first-child {
+              > span {
+                border-top-style: dashed;
+                border-top-width: 1px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .station-name {
+    }
+
+  }
+}

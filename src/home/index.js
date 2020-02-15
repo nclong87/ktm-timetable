@@ -9,9 +9,9 @@ import _orderBy from 'lodash/orderBy';
 import _cloneDeep from 'lodash/cloneDeep';
 // import Button from '@material-ui/core/Button';
 import { getStations } from '../data/stations';
-import ScheduleResult from '../components/ScheduleResult';
+import TrainSchedules from '../components/TrainSchedules';
 import './home.less';
-import { get3UpcomingTimes, getNextStations, formatDate } from '../utils/index';
+import { getUpcomingTimes, formatDate } from '../utils/index';
 import { addRecentSearch, onChangeAdvancedSearchState } from '../appActions';
 import StationPicker from '../components/stationPicker';
 
@@ -139,7 +139,7 @@ class Home extends PureComponent {
     const timetable = this.props.timetables.find(e => e.lineNum === fromStation.line);
     let result = null;
     if (timetable !== undefined) {
-      result = get3UpcomingTimes(fromStation.order < toStation.order ? timetable.timetable1 : timetable.timetable2, fromStation, this.state.departTime);
+      result = getUpcomingTimes(fromStation.order < toStation.order ? timetable.timetable1 : timetable.timetable2, fromStation, toStation, this.state.departTime);
     }
     this.props.addRecentSearch(fromStation, toStation);
     this.setState({ result });
@@ -169,14 +169,11 @@ class Home extends PureComponent {
     });
     // console.log(stationsByLine);
     return (
-      <div>
-        <ScheduleResult
-          endStation={toStation.name}
-          selectedStation={fromStation.name}
-          nextStations={getNextStations(stationsByLine, fromStation, toStation, 2)}
-          result={this.state.result}
-        />
-      </div>
+      <TrainSchedules
+        from={fromStation}
+        to={toStation}
+        trains={this.state.result}
+      />
     );
   }
 
