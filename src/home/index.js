@@ -130,7 +130,7 @@ class Home extends PureComponent {
     });
   }
 
-  searchUpcomingTrains = () => {
+  searchUpcomingTrains() {
     const { fromStation, toStation } = this.state;
     if (!fromStation || !toStation) {
       this.setState({ result: null });
@@ -253,7 +253,9 @@ class Home extends PureComponent {
         </div>
         <div className="favorite-stations">
           <div className="stations">
-            {this.props.recentSearchs.slice(0, 2).map((e, index) => <span key={index} button="true" onClick={() => this.handleOnSelectRecentSearch(e)}>{`${e.fromStation.name} - ${e.toStation.name}`}</span>)}
+            <div>
+              {this.props.recentSearchs.map((e, index) => <span key={index} button="true" onClick={() => this.handleOnSelectRecentSearch(e)}>{`${e.fromStation.name} - ${e.toStation.name}`}</span>)}
+            </div>
           </div>
         </div>
         {this.renderResult()}

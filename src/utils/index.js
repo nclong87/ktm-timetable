@@ -1,7 +1,9 @@
-/* eslint-disable */
+/* eslint no-restricted-properties: 0 */
+import _words from 'lodash/words';
+import _remove from 'lodash/remove';
 
 const moment = require('moment');
-const _ = require('lodash');
+// const _ = require('lodash');
 
 // export function getDepartTime(departTime) {
 //   const now = moment.now();
@@ -25,8 +27,7 @@ export function formatDate(date, format = 'MM/DD/YYYY') {
 //   document.getElementById("demo").innerHTML = n;
 // }
 
-export function getUpcomingTimes(timetable, station, toStation, time = null) {
-  const times = timetable.find(e => e.id === station.id);
+export function getUpcomingTimes(timetable, station, toStation, time) {
   console.log('toStation', toStation);
   // const now = moment.now();
   let departTime;
@@ -36,15 +37,23 @@ export function getUpcomingTimes(timetable, station, toStation, time = null) {
     departTime = moment(time).format('HH:mm');
   }
   const trains = [];
-  timetable.forEach(t => {
+  let flag = false;
+  timetable.forEach((t) => {
     if (t.times[station.id] === '' || t.times[toStation.id] === '') {
       return;
     }
-    if (departTime.localeCompare(t.times[station.id]) === 1) {
-      return;
+    // if (departTime.localeCompare(t.times[station.id]) === 1) {
+    //   return;
+    // }
+    const isPast = departTime.localeCompare(t.times[station.id]) === 1;
+    if (flag === false && !isPast) {
+      flag = true;
     }
-    trains.push(Object.assign({}, t, { departTime: t.times[station.id] }));
-  })
+    trains.push(Object.assign({}, t, { departTime: t.times[station.id], isPast }));
+  });
+  if (flag === true) {
+    _remove(trains, e => e.isPast);
+  }
   trains.sort((a, b) => a.departTime.localeCompare(b.departTime));
   // console.log('trains', trains);
   return trains;
@@ -85,7 +94,7 @@ export function getUpcomingTimes(timetable, station, toStation, time = null) {
 
 export function searchByKeywords(string, keywords) {
   let result = true;
-  _.words(keywords).forEach((word) => {
+  _words(keywords).forEach((word) => {
     if (result === true) {
       result = string.toLowerCase().indexOf(word.toLowerCase()) !== -1;
     }
@@ -97,7 +106,7 @@ export function getNearbyStations(lat, long, stations) {
   if (!lat || !long) {
     return [];
   }
-  const array = stations.map(e => {
+  const array = stations.map((e) => {
     const x = e.lat - lat;
     const y = e.long - long;
     const distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));

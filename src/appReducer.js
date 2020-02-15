@@ -70,7 +70,7 @@ export const recentSearchsNew = createReducer([], {
     //   newState.unshift(station);
     //   return newState;
     // }
-    const newState = state.slice(0, 2);
+    const newState = state.slice(0, 10);
     newState.unshift(action.data);
     return newState;
   },
