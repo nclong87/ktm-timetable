@@ -28,11 +28,14 @@
     "@material-ui/icons": "^3.0.2",
     "classnames": "^2.2.6",
     "date-fns": "^2.0.0-alpha.27",
+    "es6-promise": "^4.2.8",
+    "fuzzy-search": "^3.2.1",
     "i18next": "^19.0.2",
     "less": "^3.9.0",
     "lodash": "^4.17.13",
     "material-ui-pickers": "^2.2.4",
     "moment": "^2.24.0",
+    "opn": "^5.1.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -43,8 +46,6 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
-    "opn": "^5.1.0",
-    "es6-promise": "^4.2.8",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {

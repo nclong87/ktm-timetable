@@ -95,7 +95,7 @@ class Home extends PureComponent {
       return;
     }
     let fromStation = this.state.fromStation;
-    if (toStation) {
+    if (fromStation) {
       if (fromStation.conjunction === true) {
         fromStation = _cloneDeep(this.state.fromStation);
         const line = fromStation.lines.find(e => e.line === toStation.line);

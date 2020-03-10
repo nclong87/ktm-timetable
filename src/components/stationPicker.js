@@ -6,7 +6,9 @@ import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import _trim from 'lodash/trim';
 import _get from 'lodash/get';
-import { searchByKeywords, getNearbyStations } from '../utils/index';
+import _debounce from 'lodash/debounce';
+import FuzzySearch from 'fuzzy-search';
+import { getNearbyStations } from '../utils/index';
 import Suggestions from './Suggestions';
 
 class StationPicker extends PureComponent {
@@ -18,23 +20,41 @@ class StationPicker extends PureComponent {
       isFetchingLocation: false,
     };
     this.textInput = React.createRef();
+    this.handleOnChangeKeywords = this.handleOnChangeKeywords.bind(this);
+    this.searchByKeywordsDebounced = _debounce(this.searchByKeywords, 500);
+    this.fuzzySearch = new FuzzySearch(props.stations, ['name'], {
+      caseSensitive: false,
+    });
   }
 
   componentWillReceiveProps(newProps) {
+    if (newProps.stations !== this.props.stations) {
+      this.fuzzySearch = new FuzzySearch(newProps.stations, ['name'], {
+        caseSensitive: false,
+      });
+    }
     if (_get(this.props.selectedStation, 'id', null) !== _get(newProps.selectedStation, 'id', null)) {
       this.setState({ keywords: _get(newProps.selectedStation, 'name', '') });
     }
   }
 
+  searchByKeywords(keyword) {
+    const suggestions = keyword.length === 0 ? [] : this.fuzzySearch.search(keyword);
+    this.setState({ suggestions }, () => this.props.onChange(null));
+  }
+
   handleOnChangeKeywords = (keywords) => {
     const trimedKeywors = _trim(keywords);
-    // console.log(keywords);
-    const suggestions = trimedKeywors.length === 0 ? [] : this.props.stations.filter(e => searchByKeywords(e.name, trimedKeywors));
-    this.setState({ keywords, suggestions }, () => this.props.onChange(null));
+    const hasChanged = this.state.keywords !== trimedKeywors && _trim(this.state.keywords) !== trimedKeywors;
+    this.setState({ keywords }, () => {
+      if (hasChanged) {
+        this.searchByKeywordsDebounced(trimedKeywors);
+      }
+    });
   }
 
   handleOnClickClear = () => {
-    this.handleOnChangeKeywords('');
+    this.setState({ keywords: '', suggestions: [] }, () => this.props.onChange(null));
     this.textInput.current.focus();
   }
 
