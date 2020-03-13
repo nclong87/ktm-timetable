@@ -1,5 +1,5 @@
 import createReducer from './utils/createReducer';
-import { SET_TIMETABLES, ADD_RECENT_SEARCH, CHANGE_ADVANCED_SEARCH_STATE, SET_METADATA } from './appActions';
+import { SET_TIMETABLES, ADD_RECENT_SEARCH, CHANGE_ADVANCED_SEARCH_STATE, SET_METADATA, SET_STATIONS } from './appActions';
 
 // export const newtimetables = createReducer([], {
 //   [SET_TIMETABLES](state, action) {
@@ -81,6 +81,12 @@ export const recentSearchsNew = createReducer([], {
 
 export const advancedSearchEnabled = createReducer(false, {
   [CHANGE_ADVANCED_SEARCH_STATE](state, action) {
+    return action.data;
+  },
+});
+
+export const stations = createReducer([], {
+  [SET_STATIONS](state, action) {
     return action.data;
   },
 });

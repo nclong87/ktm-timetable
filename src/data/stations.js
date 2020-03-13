@@ -1,5 +1,26 @@
 import line1 from './line1';
 import line2 from './line2';
+import line3 from './line3';
+import line4 from './line4';
+
+const lines = [
+  {
+    line: 1,
+    stops: line1,
+  },
+  {
+    line: 2,
+    stops: line2,
+  },
+  {
+    line: 3,
+    stops: line3,
+  },
+  {
+    line: 4,
+    stops: line4,
+  },
+];
 
 const stations = [
   {
@@ -338,36 +359,148 @@ const stations = [
     lat: 2.463866,
     long: 102.226278,
   },
+  {
+    id: 'Padang Besar',
+    name: 'Padang Besar',
+    lat: 6.6624554,
+    long: 100.3175396,
+  },
+  {
+    id: 'Bukit Ketri',
+    name: 'Bukit Ketri',
+    lat: 6.523860,
+    long: 100.257128,
+  },
+  {
+    id: 'Arau',
+    name: 'Arau',
+    lat: 6.431927,
+    long: 100.268345,
+  },
+  {
+    id: 'Kodiang',
+    name: 'Kodiang',
+    lat: 6.370650,
+    long: 100.302603,
+  },
+  {
+    id: 'Anak Bukit',
+    name: 'Anak Bukit',
+    lat: 6.183290,
+    long: 100.374862,
+  },
+  {
+    id: 'Alor Setar',
+    name: 'Alor Setar',
+    lat: 6.1129728,
+    long: 100.3696419,
+  },
+  {
+    id: 'Kobah',
+    name: 'Kobah',
+    lat: 5.9723153,
+    long: 100.4401768,
+  },
+  {
+    id: 'Gurun',
+    name: 'Gurun',
+    lat: 5.824501,
+    long: 100.477760,
+  },
+  {
+    id: 'Sungai Petani',
+    name: 'Sungai Petani',
+    lat: 5.642987,
+    long: 100.490243,
+  },
+  {
+    id: 'Tasek Gelugor',
+    name: 'Tasek Gelugor',
+    lat: 5.481978,
+    long: 100.497632,
+  },
+  {
+    id: 'Bukit Mertajam',
+    name: 'Bukit Mertajam',
+    lat: 5.365961,
+    long: 100.447691,
+  },
+  {
+    id: 'Bukit Tengah',
+    name: 'Bukit Tengah',
+    lat: 5.364550,
+    long: 100.421716,
+  },
+  {
+    id: 'Butterworth',
+    name: 'Butterworth',
+    lat: 5.393451,
+    long: 100.366591,
+  },
+  {
+    id: 'Taiping',
+    name: 'Taiping',
+    lat: 4.852086,
+    long: 100.731596,
+  },
+  {
+    id: 'Kamunting',
+    name: 'Kamunting',
+    lat: 4.895910,
+    long: 100.718932,
+  },
+  {
+    id: 'Bagan Serai',
+    name: 'Bagan Serai',
+    lat: 5.028440,
+    long: 100.527148,
+  },
+  {
+    id: 'Parit Buntar',
+    name: 'Parit Buntar',
+    lat: 5.130604,
+    long: 100.486378,
+  },
+  {
+    id: 'Nibong Tebal',
+    name: 'Nibong Tebal',
+    lat: 5.169481,
+    long: 100.479785,
+  },
+  {
+    id: 'Simpang Ampat',
+    name: 'Simpang Ampat',
+    lat: 5.286043,
+    long: 100.480839,
+  },
 ];
 
 export function getStations() {
+  console.log('getStations');
   const result = [];
   stations.forEach((s) => {
     const { id, name, lat, long } = s;
     const station = { id, name, lat, long };
-    station.conjunction = false;
-    const line1Order = line1.indexOf(id);
-    const line2Order = line2.indexOf(id);
-    if (line1Order >= 0 && line2Order >= 0) {
+    const foundStops = [];
+    lines.forEach(({ line, stops }) => {
+      const order = stops.indexOf(id);
+      if (order >= 0) {
+        foundStops.push({ line, order });
+      }
+    });
+    if (foundStops.length === 0) {
+      return;
+    }
+    if (foundStops.length === 1) {
+      station.conjunction = false;
+      station.line = foundStops[0].line;
+      station.order = foundStops[0].order;
+    } else if (foundStops.length > 1) {
       station.conjunction = true;
-      station.lines = [
-        {
-          id,
-          line: 1,
-          order: line1Order,
-        },
-        {
-          id,
-          line: 2,
-          order: line2Order,
-        },
-      ];
-    } else if (line1Order >= 0) {
-      station.line = 1;
-      station.order = line1Order;
-    } else if (line2Order >= 0) {
-      station.line = 2;
-      station.order = line2Order;
+      station.lines = [];
+      foundStops.forEach(({ line, order }) => {
+        station.lines.push({ id, line, order });
+      });
     }
     result.push(station);
   });
@@ -381,6 +514,10 @@ export function getLineName(lineNum) {
       return 'Tg. Malim - Pel. Klang';
     case 2:
       return 'Batu Caves - Tampin';
+    case 3:
+      return 'Butterworth - Padang Besar';
+    case 4:
+      return 'Butterworth/Bukit Mertajam - Padang Besar';
     default:
       return '';
   }

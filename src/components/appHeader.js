@@ -19,7 +19,7 @@ import Menu from '../components/menu';
 // import ListItemText from '@material-ui/core/ListItemText';
 // import InboxIcon from '@material-ui/icons/MoveToInbox';
 // import MailIcon from '@material-ui/icons/Mail';
-import HeadLine from './HeadLine';
+// import HeadLine from './HeadLine';
 
 const drawerWidth = 240;
 
@@ -122,7 +122,6 @@ class AppHeader extends PureComponent {
           </AppBar>
           <Menu open={open} onClose={this.handleDrawerClose} />
         </div>
-        <HeadLine />
       </div>
     );
   }

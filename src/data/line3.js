@@ -1,0 +1,15 @@
+export default [
+  'Padang Besar',
+  'Bukit Ketri',
+  'Arau',
+  'Kodiang',
+  'Anak Bukit',
+  'Alor Setar',
+  'Kobah',
+  'Gurun',
+  'Sungai Petani',
+  'Tasek Gelugor',
+  'Bukit Mertajam',
+  'Bukit Tengah',
+  'Butterworth',
+];

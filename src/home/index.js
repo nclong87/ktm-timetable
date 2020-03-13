@@ -8,47 +8,12 @@ import IconButton from '@material-ui/core/IconButton';
 import _orderBy from 'lodash/orderBy';
 import _cloneDeep from 'lodash/cloneDeep';
 // import Button from '@material-ui/core/Button';
-import { getStations } from '../data/stations';
+import HeadLine from '../components/HeadLine';
 import TrainSchedules from '../components/TrainSchedules';
 import './home.less';
 import { getUpcomingTimes, formatDate } from '../utils/index';
-import { addRecentSearch, onChangeAdvancedSearchState } from '../appActions';
+import { addRecentSearch, onChangeAdvancedSearchState, getListStations } from '../appActions';
 import StationPicker from '../components/stationPicker';
-
-const stations = getStations();
-
-function getListStationsForPicker(toStation) {
-  let list = null;
-  if (toStation === null) {
-    list = stations;
-  } else if (toStation.conjunction === true) {
-    list = [];
-    stations.forEach((station) => {
-      if (station.conjunction === true) {
-        station.lines.forEach((line) => {
-          list.push({
-            id: line.id,
-            name: station.name,
-            lat: station.lat,
-            long: station.long,
-            line: line.line,
-            order: line.order,
-          });
-        });
-      } else {
-        list.push(station);
-      }
-    });
-  } else {
-    list = _orderBy(stations, (e) => {
-      if (e.line === toStation.line) {
-        return -1;
-      }
-      return 1;
-    });
-  }
-  return list;
-}
 
 class Home extends PureComponent {
   constructor(props) {
@@ -66,6 +31,46 @@ class Home extends PureComponent {
     this.handleOnChangeToStation = this.handleOnChangeToStation.bind(this);
   }
 
+  async componentDidMount() {
+    if (this.props.stations.length === 0) {
+      await this.props.getListStations();
+    }
+  }
+
+  getListStationsForPicker(toStation) {
+    const stations = this.props.stations;
+    let list = null;
+    if (toStation === null) {
+      list = stations;
+    } else if (toStation.conjunction === true) {
+      list = [];
+      stations.forEach((station) => {
+        if (station.conjunction === true) {
+          station.lines.forEach((line) => {
+            list.push({
+              id: line.id,
+              name: station.name,
+              lat: station.lat,
+              long: station.long,
+              line: line.line,
+              order: line.order,
+            });
+          });
+        } else {
+          list.push(station);
+        }
+      });
+    } else {
+      list = _orderBy(stations, (e) => {
+        if (e.line === toStation.line) {
+          return -1;
+        }
+        return 1;
+      });
+    }
+    return list;
+  }
+
   handleOnChangeFromStation(fromStation) {
     if (fromStation === null) {
       this.setState({ fromStation: null, result: null });
@@ -76,10 +81,18 @@ class Home extends PureComponent {
       if (toStation.conjunction === true) {
         toStation = _cloneDeep(this.state.toStation);
         const line = toStation.lines.find(e => e.line === fromStation.line);
-        Object.assign(toStation, line);
+        if (line === undefined) {
+          toStation = null;
+        } else {
+          Object.assign(toStation, line);
+        }
       } else if (fromStation.conjunction === true) {
         const line = fromStation.lines.find(e => e.line === toStation.line);
-        Object.assign(fromStation, line);
+        if (line === undefined) {
+          toStation = null;
+        } else {
+          Object.assign(fromStation, line);
+        }
       } else if (toStation.line !== fromStation.line) {
         toStation = null;
       }
@@ -90,6 +103,7 @@ class Home extends PureComponent {
   }
 
   handleOnChangeToStation(toStation) {
+    console.log('handleOnChangeToStation', toStation);
     if (toStation === null) {
       this.setState({ toStation: null, result: null });
       return;
@@ -99,10 +113,18 @@ class Home extends PureComponent {
       if (fromStation.conjunction === true) {
         fromStation = _cloneDeep(this.state.fromStation);
         const line = fromStation.lines.find(e => e.line === toStation.line);
-        Object.assign(fromStation, line);
+        if (line === undefined) {
+          fromStation = null;
+        } else {
+          Object.assign(fromStation, line);
+        }
       } else if (toStation.conjunction === true) {
         const line = toStation.lines.find(e => e.line === fromStation.line);
-        Object.assign(toStation, line);
+        if (line === undefined) {
+          fromStation = null;
+        } else {
+          Object.assign(toStation, line);
+        }
       } else if (fromStation.line !== toStation.line) {
         fromStation = null;
       }
@@ -153,9 +175,14 @@ class Home extends PureComponent {
     const { fromStation, toStation } = this.state;
     const selectedLine = fromStation.line;
     const stationsByLine = [];
-    stations.forEach((station) => {
+    this.props.stations.forEach((station) => {
       if (station.conjunction === true) {
-        const { id, line, order } = station.lines.find(e => e.line === selectedLine);
+        const lineFound = station.lines.find(e => e.line === selectedLine);
+        if (lineFound === undefined) {
+          console.log('Not found', selectedLine);
+          return;
+        }
+        const { id, line, order } = lineFound;
         stationsByLine.push({
           id,
           name: station.name,
@@ -184,7 +211,7 @@ class Home extends PureComponent {
         selectedStation={this.state.fromStation}
         label="From station"
         nearby
-        stations={getListStationsForPicker(this.state.toStation)}
+        stations={this.getListStationsForPicker(this.state.toStation)}
         onChange={this.handleOnChangeFromStation}
       />
     );
@@ -195,7 +222,7 @@ class Home extends PureComponent {
       <StationPicker
         selectedStation={this.state.toStation}
         label="To station"
-        stations={getListStationsForPicker(this.state.fromStation)}
+        stations={this.getListStationsForPicker(this.state.fromStation)}
         onChange={this.handleOnChangeToStation}
       />
     );
@@ -234,8 +261,10 @@ class Home extends PureComponent {
   }
 
   render() {
+    const fromStation = this.state.fromStation;
     return (
       <div className="home">
+        {fromStation && fromStation.line !== undefined && <HeadLine line={fromStation.line} />}
         <div className="search">
           <div style={{ display: 'none' }}>
             <TimePicker
@@ -271,14 +300,17 @@ class Home extends PureComponent {
 }
 
 Home.propTypes = {
+  stations: PropTypes.instanceOf(Array),
   timetables: PropTypes.instanceOf(Array),
   recentSearchs: PropTypes.instanceOf(Array),
   addRecentSearch: PropTypes.func.isRequired,
   onChangeAdvancedSearchState: PropTypes.func.isRequired,
+  getListStations: PropTypes.func.isRequired,
   advancedSearchEnabled: PropTypes.bool,
 };
 
 Home.defaultProps = {
+  stations: [],
   timetables: [],
   recentSearchs: [],
   advancedSearchEnabled: false,
@@ -286,6 +318,7 @@ Home.defaultProps = {
 
 function mapStateToProps(state) {
   return {
+    stations: state.stations,
     timetables: state.newtimetables,
     recentSearchs: state.recentSearchsNew,
     advancedSearchEnabled: state.advancedSearchEnabled,
@@ -293,7 +326,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Object.assign({}, { addRecentSearch, onChangeAdvancedSearchState }), dispatch);
+  return bindActionCreators(Object.assign({}, { addRecentSearch, onChangeAdvancedSearchState, getListStations }), dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
